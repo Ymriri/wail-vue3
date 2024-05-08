@@ -102,8 +102,8 @@ function handleClose() {
 
 <template>
   <el-form :inline="true" :model="goodsPageRequest">
-    <el-form-item label="商品名称">
-      <el-input v-model="goodsPageRequest.name" placeholder="请输入商品名称" class="form-input" clearable/>
+    <el-form-item label="任务名称">
+      <el-input v-model="goodsPageRequest.name" placeholder="请输入任务名称" class="form-input" clearable/>
     </el-form-item>
     <el-form-item label="商品类型">
       <el-select

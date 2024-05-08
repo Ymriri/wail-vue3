@@ -17,6 +17,7 @@ var memberController = controller.GetMemberController()
 var memberLevelController = controller.GetMemberLevelController()
 var orderController = controller.GetOrderController()
 var systemController = controller.GetSystemController()
+var taskController = controller.GetTasksController()
 
 // App struct
 type App struct {
@@ -34,6 +35,26 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
+func (a *App) TasksGetById(id string) api.RespData[vo.TasksVo] {
+	return taskController.TaskGetById(id)
+}
+
+func (a *App) TasksAll() api.RespData[[]vo.TasksVo] {
+	return taskController.TaskAll()
+}
+
+func (a *App) TasksPage(req request.TasksPageRequest) api.RespData[api.Page[vo.TasksVo]] {
+	return taskController.TaskPage(req)
+}
+
+func (a *App) TasksSave(req request.TasksSaveRequest) api.RespData[types.Nil] {
+	return taskController.TaskSave(req)
+}
+
+func (a *App) TasksDelete(id string) api.RespData[types.Nil] {
+	return taskController.TaskDelete(id)
+
+}
 func (a *App) GoodsGetById(id string) api.RespData[vo.GoodsVO] {
 	return goodsController.GoodsGetById(id)
 }

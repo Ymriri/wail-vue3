@@ -29,25 +29,25 @@ function menuClick(index) {
       <el-icon>
         <List/>
       </el-icon>
-      <span>商品列表</span>
+      <span>任务列表</span>
     </el-menu-item>
     <el-menu-item index="/order">
       <el-icon>
         <Box/>
       </el-icon>
-      <span>商品下单</span>
+      <span>任务详情</span>
     </el-menu-item>
     <el-menu-item index="/member">
       <el-icon>
         <User/>
       </el-icon>
-      <span>会员中心</span>
+      <span>用户管理</span>
     </el-menu-item>
     <el-menu-item index="/orderRecord">
       <el-icon>
         <Refrigerator/>
       </el-icon>
-      <span>账单记录</span>
+      <span>历史记录</span>
     </el-menu-item>
     <el-menu-item index="/system">
       <el-icon>

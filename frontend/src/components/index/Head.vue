@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 
-const title = ref('商品管理系统')
+const title = ref('FtpScanner System')
 const time = ref('')
 
 onMounted(() => {
