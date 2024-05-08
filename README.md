@@ -1,5 +1,10 @@
 # 商品系统
 
+效果图
+![img.png](img/img.png)
+
+![img.png](img.png)
+
 ##  技术栈
     
     本系统使用 wails + vue3 + elementplus + gorm

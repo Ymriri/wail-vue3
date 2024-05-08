@@ -1,3 +1,7 @@
-#build/bin
+build/bin
 node_modules
 frontend/dist
+frontend/package-lock.json
+
+/build/bin/goods-system.app/
+
