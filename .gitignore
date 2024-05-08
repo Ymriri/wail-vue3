@@ -5,3 +5,6 @@ frontend/package-lock.json
 
 /build/bin/goods-system.app/
 
+/task_.md
+/db/
+/frontend/wailsjs/
