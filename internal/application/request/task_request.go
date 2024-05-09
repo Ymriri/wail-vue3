@@ -4,6 +4,8 @@
 // @Update 2024/5/8 21:52
 package request
 
+import "time"
+
 type TasksPageRequest struct {
 	//商品名称
 	TaskName string `json:"taskName"`
@@ -19,10 +21,23 @@ type TasksSaveRequest struct {
 	//任务名称
 	TaskName string `json:"taskName"`
 	//商品类型
-	TaskDescription string `json:"taskDescription"`
-	TaskStartTime   string `json:"taskStartTime"`
-	TaskEndTime     string `json:"taskEndTime"`
-	TaskDeadline    string `json:"taskDeadline"`
-	TaskStatus      int    `json:"taskStatus"` // 0:未开始 1:进行中 2:已结束
-	AccessPath      string `json:"accessPath"`
+	TaskDescription string    `json:"taskDescription"`
+	TaskStartTime   time.Time `json:"taskStartTime"`
+	TaskEndTime     time.Time `json:"taskEndTime"`
+	TaskDeadline    time.Time `json:"taskDeadline"`
+	TaskStatus      int       `json:"taskStatus"` // 0:未开始 1:进行中 2:已结束
+	AccessPath      string    `json:"accessPath"`
+}
+
+type TasksUpdateRequest struct {
+	ID uint64 `json:"id"`
+	//任务名称
+	TaskName string `json:"taskName"`
+	//商品类型
+	TaskDescription string    `json:"taskDescription"`
+	TaskStartTime   time.Time `json:"taskStartTime"`
+	TaskEndTime     time.Time `json:"taskEndTime"`
+	TaskDeadline    time.Time `json:"taskDeadline"`
+	TaskStatus      int       `json:"taskStatus"` // 0:未开始 1:进行中 2:已结束
+	AccessPath      string    `json:"accessPath"`
 }

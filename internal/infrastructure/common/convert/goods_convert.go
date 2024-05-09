@@ -96,6 +96,7 @@ func ToTasksSaveParam(param param.TasksSaveParam) entity.TaskSettings {
 		TaskEndTime:     param.TaskEndTime,
 		TaskDeadline:    param.TaskDeadline,
 		TaskStatus:      param.TaskStatus,
+		AccessPath:      param.AccessPath,
 	}
 
 }
@@ -133,10 +134,24 @@ func ToTaskSaveParam(req request.TasksSaveRequest) param.TasksSaveParam {
 	return param.TasksSaveParam{
 		TaskName:        req.TaskName,
 		TaskDescription: req.TaskDescription,
-		TaskStartTime:   utils.ToTime(req.TaskStartTime),
-		TaskEndTime:     utils.ToTime(req.TaskEndTime),
-		TaskDeadline:    utils.ToTime(req.TaskDeadline),
+		TaskStartTime:   req.TaskStartTime,
+		TaskEndTime:     req.TaskEndTime,
+		TaskDeadline:    req.TaskDeadline,
 		TaskStatus:      req.TaskStatus,
+		AccessPath:      req.AccessPath,
+	}
+}
+
+func ToTaskUpdateParam(req request.TasksUpdateRequest) param.TasksSaveParam {
+	return param.TasksSaveParam{
+		ID:              uint(req.ID),
+		TaskName:        req.TaskName,
+		TaskDescription: req.TaskDescription,
+		TaskStartTime:   req.TaskStartTime,
+		TaskEndTime:     req.TaskEndTime,
+		TaskDeadline:    req.TaskDeadline,
+		TaskStatus:      req.TaskStatus,
+		AccessPath:      req.AccessPath,
 	}
 }
 
@@ -186,6 +201,7 @@ func ToTasksBySaveParam(param param.TasksSaveParam) entity.TaskSettings {
 		TaskEndTime:     param.TaskEndTime,
 		TaskDeadline:    param.TaskDeadline,
 		TaskStatus:      param.TaskStatus,
+		AccessPath:      param.AccessPath,
 	}
 }
 

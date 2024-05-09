@@ -43,12 +43,7 @@ function menuClick(index) {
       </el-icon>
       <span>用户管理</span>
     </el-menu-item>
-    <el-menu-item index="/orderRecord">
-      <el-icon>
-        <Refrigerator/>
-      </el-icon>
-      <span>历史记录</span>
-    </el-menu-item>
+
     <el-menu-item index="/system">
       <el-icon>
         <Refrigerator/>

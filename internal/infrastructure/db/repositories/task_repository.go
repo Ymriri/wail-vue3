@@ -29,9 +29,11 @@ func (p *TaskRepository) Page(tasks *entity.TaskSettings, page, size int) api.Pa
 		// gorm 模糊查询
 		tx.Where("task_name like ?", "%"+tasks.TaskName+"%")
 	}
-
-	tx.Where("task_status = ?", tasks.TaskStatus).
-		Count(&total).
+	// -1 表示查询所有
+	if tasks.TaskStatus != -1 {
+		tx.Where("task_status = ?", tasks.TaskStatus)
+	}
+	tx.Count(&total).
 		Limit(size).
 		Offset((page - 1) * size).
 		Find(&taskList)
@@ -89,12 +91,14 @@ func (p *TaskRepository) UpdateById(task *entity.TaskSettings) {
 	if task.TaskDescription != old.TaskDescription {
 		updates["task_description"] = task.TaskDescription
 		flag = true
-
 	}
 	if task.AccessPath != old.AccessPath {
 		updates["access_path"] = task.AccessPath
 		flag = true
-
+	}
+	if task.TaskEndTime != old.TaskEndTime {
+		updates["task_end_time"] = task.TaskEndTime
+		flag = true
 	}
 	if flag {
 		updates["updated_at"] = time.Now()

@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
-import Goods from "../components/goods/Goods.vue";
+import Task from "../components/task/Task.vue";
 import Member from "../components/member/Member.vue";
 import Bill from "../components/order/Order.vue";
 import OrderRecord from "../components/order/OrderRecord.vue";
@@ -8,8 +8,8 @@ import System from "../components/system/System.vue";
 const routes = [
     {
         path: '/',
-        name: 'Goods',
-        component: Goods,
+        name: 'Task',
+        component: Task,
     }, {
         path: '/member',
         name: 'Member',

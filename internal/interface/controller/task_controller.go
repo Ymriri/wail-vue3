@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"go/types"
 	"goods-system/internal/application/appmanager"
 	"goods-system/internal/application/request"
@@ -43,10 +44,20 @@ func (p *TasksController) TaskPage(req request.TasksPageRequest) api.RespData[ap
 
 // GoodsSave 保存商品
 func (p *TasksController) TaskSave(req request.TasksSaveRequest) api.RespData[types.Nil] {
-	if req.TaskName == "" || req.TaskDescription == "" || req.AccessPath == "" || req.TaskStartTime == "" || req.TaskDeadline == "" {
+	if req.TaskName == "" || req.TaskDescription == "" || req.AccessPath == "" {
 		return api.Fail[types.Nil]("参数不全，检查输入是否为空")
 	}
 	taskManager.Save(req)
+	return api.Success[types.Nil](types.Nil{}, "")
+}
+
+// GoodsSave 保存商品
+func (p *TasksController) TaskUpdate(req request.TasksUpdateRequest) api.RespData[types.Nil] {
+	fmt.Println(req)
+	if req.TaskName == "" || req.TaskDescription == "" || req.AccessPath == "" {
+		return api.Fail[types.Nil]("参数不全，检查输入是否为空")
+	}
+	taskManager.Update(req)
 	return api.Success[types.Nil](types.Nil{}, "")
 }
 

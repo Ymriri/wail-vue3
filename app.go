@@ -51,6 +51,10 @@ func (a *App) TasksSave(req request.TasksSaveRequest) api.RespData[types.Nil] {
 	return taskController.TaskSave(req)
 }
 
+func (a *App) TaskUpdate(req request.TasksUpdateRequest) api.RespData[types.Nil] {
+	return taskController.TaskUpdate(req)
+}
+
 func (a *App) TasksDelete(id string) api.RespData[types.Nil] {
 	return taskController.TaskDelete(id)
 

@@ -29,6 +29,7 @@ func GetTasksManagerInstance() *TasksManager {
 func (p *TasksManager) Page(request request.TasksPageRequest) api.Page[vo.TasksVo] {
 	param := convert.ToTasksPageParam(request)
 	//分页查询
+
 	page := tasksService.Page(param)
 	data := page.Data
 	var TaskList []vo.TasksVo
@@ -48,6 +49,12 @@ func (p *TasksManager) Page(request request.TasksPageRequest) api.Page[vo.TasksV
 func (p *TasksManager) Save(req request.TasksSaveRequest) {
 	param := convert.ToTaskSaveParam(req)
 	tasksService.Save(param)
+}
+
+// Save 更新任务
+func (p *TasksManager) Update(req request.TasksUpdateRequest) {
+	param := convert.ToTaskUpdateParam(req)
+	tasksService.Update(param)
 }
 
 // Delete 删除商品

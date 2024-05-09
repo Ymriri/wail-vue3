@@ -1,13 +1,14 @@
 <script setup>
 import {defineEmits} from 'vue';
-import {GoodsDelete} from "../../../wailsjs/go/main/App.js";
+import {TasksDelete} from "../../../wailsjs/go/main/App.js";
 import {ElMessage} from "element-plus";
 // 定义你希望触发的自定义事件
 const emit = defineEmits(['refresh', 'close']);
 
 //删除商品
 function deleteGoods() {
-  GoodsDelete(props.goodsId).then(() => {
+  console.log(props.goodsId)
+  TasksDelete(String(props.goodsId)).then(() => {
     ElMessage.success('删除成功')
   }).catch(err => {
     ElMessage.error('出现异常' + err)
