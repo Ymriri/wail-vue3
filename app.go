@@ -4,11 +4,14 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"go/types"
 	"goods-system/internal/application/request"
 	"goods-system/internal/application/vo"
 	"goods-system/internal/infrastructure/common/api"
 	"goods-system/internal/interface/controller"
+	"goods-system/internal/service/impl"
 )
 
 var goodsController = controller.GetGoodsController()
@@ -20,6 +23,9 @@ var systemController = controller.GetSystemController()
 var taskController = controller.GetTasksController()
 var userController = controller.GetUserControllerInstance()
 var configController = controller.GetConfigControllerInstance()
+
+// excel 读取
+var excelUtil = impl.GetLoadFileService()
 
 // App struct
 type App struct {
@@ -255,4 +261,26 @@ func (a *App) ImportBackup(base64File string) api.RespData[any] {
 	}
 	systemController.ImportBackup(jsonData)
 	return api.Success[any](types.Nil{}, "")
+}
+
+// SelectFile 选择文件
+func (a *App) SelectFile(filetype string) []vo.UserVo {
+	if filetype == "" {
+		filetype = "*.xls;*.xlsx;*.csv;*.xlsb;*.xlsm"
+	}
+	selection, err := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{
+		Title: "选择文件",
+		Filters: []runtime.FileFilter{
+			{
+				DisplayName: "加载用户文件",
+				Pattern:     filetype,
+			},
+		},
+	})
+	// 文件路径名
+	fmt.Println(selection)
+	if err != nil {
+		_ = fmt.Sprintf("err %s!", err)
+	}
+	return excelUtil.ReadUserExcel(selection)
 }
