@@ -63,26 +63,31 @@ func (a *App) TaskUpdate(req request.TasksUpdateRequest) api.RespData[types.Nil]
 	return taskController.TaskUpdate(req)
 }
 
-// 用户查询页面
+// UserPage 用户查询页面
 func (a *App) UserPage(req vo.UserPageVo) api.RespData[api.Page[vo.UserVo]] {
 	return userController.UserPage(req)
 }
 
-// 用户保存
+// UserSave 用户保存
 func (a *App) UserSave(req vo.UserVo) api.RespData[types.Nil] {
 	return userController.Save(req)
 }
 
-// 用户删除
+// UserDelete 用户删除
 func (a *App) UserDelete(id uint) api.RespData[types.Nil] {
 	return userController.Delete(id)
 }
 
-// 用户更新
+// UserUpdate 用户更新
 func (a *App) UserUpdate(req vo.UserVo) api.RespData[types.Nil] {
 	return userController.Update(req)
 }
 
+// UserBatchInsert 用户批量插入
+func (a *App) UserBatchInsert(req []vo.UserVo) api.RespData[types.Nil] {
+	return userController.BatchInsert(req)
+
+}
 func (a *App) TasksDelete(id string) api.RespData[types.Nil] {
 	return taskController.TaskDelete(id)
 

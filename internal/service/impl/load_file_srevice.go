@@ -41,7 +41,8 @@ func (utils *LoadFileService) ReadUserExcel(filePath string) []vo.UserVo {
 	//
 	// 循环获得sheet
 	for _, sheetName := range f.GetSheetMap() {
-		rows, err := f.GetRows(sheetName)
+		fmt.Println(sheetName)
+		rows, err := f.GetRows("科组10")
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -74,7 +75,6 @@ func (utils *LoadFileService) ReadUserExcel(filePath string) []vo.UserVo {
 						}
 						// 发现锚点，开始匹配数据
 						flag = true
-						fmt.Println("记录", tempMap)
 					}
 
 				}

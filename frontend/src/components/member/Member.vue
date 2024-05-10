@@ -114,7 +114,7 @@
       <el-button type="primary" @click="loadUserFile(null)" style="margin-left: 3%;">选择用户信息文件</el-button>
     </div>
     <el-divider></el-divider>
-    <el-table :data="tempUser" v-loading="tempUserloading" >
+    <el-table :data="tempUser" v-loading="tempUserloading">
       <el-table-column prop="tempId" label="序号"/>
       <el-table-column prop="name" label="姓名"/>
       <el-table-column prop="employeeNumber" label="工号"/>
@@ -124,19 +124,27 @@
       <el-table-column prop="configName" label="科组"/>
       <el-table-column label="操作">
         <template #default="scope">
-          <el-button v-if="scope.ID!==-1" type="danger" :icon="Delete" circle @click="deleteLocalClassConfig(scope.row)"/>
+          <el-button v-if="scope.ID!==-1" type="danger" :icon="Delete" circle
+                     @click="deleteLocalClassConfig(scope.row)"/>
         </template>
       </el-table-column>
     </el-table>
     <div class="show-mid" style="margin-top: 3%">
-    <el-button  type="primary" @click="addNewUserConfig(null)">导入</el-button>
+      <el-button type="primary" @click="addNewUserConfig(null)">导入</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script setup>
 import {onMounted, ref} from "vue";
-import {ConfigDelete, ConfigInsert, MemberPage, SelectFile, UserPage} from "../../../wailsjs/go/main/App.js";
+import {
+  ConfigDelete,
+  ConfigInsert,
+  MemberPage,
+  SelectFile,
+  UserBatchInsert,
+  UserPage
+} from "../../../wailsjs/go/main/App.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {Delete, Edit} from "@element-plus/icons-vue";
 import MemberEditDialog from "./MemberEditDialog.vue";
@@ -295,11 +303,23 @@ function addNewUserConfig() {
       }
   )
       .then(() => {
-        // 提醒删除成功
-        ElMessage({
-          message: '导入成功！',
-          type: 'success',
-          plain: true,
+
+        for (let i = 0; i < tempUser.value.length; i++) {
+          tempUser.value[i].configFileID = tempAddConfigSelect.value
+        }
+        UserBatchInsert(tempUser.value).then(resp => {
+          // 刷新本地
+          reloaddd()
+          // 提醒删除成功
+          ElMessage({
+            message: '导入成功！',
+            type: 'success',
+            plain: true,
+          })
+          // 取消对话
+          loadConfigVisible.value = false
+          // 清空原来的数据
+          tempUser.value = []
         })
       })
       .catch(() => {
@@ -311,7 +331,7 @@ function addNewUserConfig() {
 
 }
 
-function deleteLocalClassConfig(data){
+function deleteLocalClassConfig(data) {
   ElMessageBox.confirm(
       '是否确定删除该用户？',
       '警告',
@@ -323,9 +343,9 @@ function deleteLocalClassConfig(data){
   )
       .then(() => {
         // 提醒删除成功
-        for(let i = 0;i<tempUser.value.length;i++){
-          if(tempUser.value[i].tempId===data.tempId){
-            tempUser.value.splice(i,1)
+        for (let i = 0; i < tempUser.value.length; i++) {
+          if (tempUser.value[i].tempId === data.tempId) {
+            tempUser.value.splice(i, 1)
             break
           }
         }
@@ -347,6 +367,7 @@ function deleteLocalClassConfig(data){
       })
 
 }
+
 function deleteClassConfig(data) {
   // 删除分组
   ElMessageBox.confirm(

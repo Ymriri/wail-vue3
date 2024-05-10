@@ -49,5 +49,10 @@ func (c *ConfigService) Update(config *entity.ConfigTree) {
 
 // Delete 删除
 func (c *ConfigService) Delete(id uint) {
+	// 如果该配置的父节点是3, 则需要同事删除下面所有的用户
+	config := configRepo.FindById(id)
+	if config.ParentID == 3 {
+		userRepo.DeleteByConfigId(id)
+	}
 	configRepo.Delete(id)
 }

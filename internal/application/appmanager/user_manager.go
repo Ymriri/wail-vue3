@@ -39,3 +39,10 @@ func (p *UserManager) Delete(id uint) {
 func (p *UserManager) Update(req vo.UserVo) {
 	userService.Update(req)
 }
+
+// BatchInsert 批量插入
+func (p *UserManager) BatchInsert(req []vo.UserVo) {
+	for _, e := range req {
+		userService.Save(e)
+	}
+}

@@ -44,3 +44,9 @@ func (u *UserController) Update(req vo.UserVo) api.RespData[types.Nil] {
 	userManager.Update(req)
 	return api.Success(types.Nil{}, "")
 }
+
+// 批量插入
+func (u *UserController) BatchInsert(req []vo.UserVo) api.RespData[types.Nil] {
+	userManager.BatchInsert(req)
+	return api.Success(types.Nil{}, "")
+}

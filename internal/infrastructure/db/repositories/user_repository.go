@@ -52,6 +52,7 @@ func (p *UserRepository) Page(user *entity.User, page, size int) api.Page[entity
 // Insert 保存
 func (u *UserRepository) Insert(user *entity.User) {
 	user.UpdatedAt = time.Now()
+	user.CreatedAt = time.Now()
 	global.DB.Create(user)
 }
 
@@ -108,4 +109,9 @@ func (u *UserRepository) Update(user *entity.User) {
 func (u *UserRepository) DeleteById(id uint) {
 	var user entity.User
 	global.DB.Delete(&user, id)
+}
+
+// DeleteByConfigId 批量删除configId的用户
+func (u *UserRepository) DeleteByConfigId(configId uint) {
+	global.DB.Where("config_file_id = ?", configId).Delete(&entity.User{})
 }
