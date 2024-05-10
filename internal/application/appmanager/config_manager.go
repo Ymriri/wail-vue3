@@ -32,11 +32,12 @@ func (c *ConfigManager) FindById(id uint) vo.ConfigTreeVo {
 }
 
 // Insert 保存
-func (c *ConfigManager) Insert(config vo.ConfigTreeVo) {
+func (c *ConfigManager) Insert(config vo.ConfigTreeVo) vo.ConfigTreeVo {
 	tempConfig := convert.ToConfigByVo(config)
 	tempConfig.CreatedAt = time.Now()
 	tempConfig.UpdatedAt = time.Now()
 	configService.Insert(&tempConfig)
+	return convert.ToConfigVo(tempConfig)
 }
 
 // Update 更新

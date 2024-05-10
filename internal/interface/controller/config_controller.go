@@ -5,6 +5,7 @@
 package controller
 
 import (
+	"fmt"
 	"go/types"
 	"goods-system/internal/application/appmanager"
 	"goods-system/internal/application/vo"
@@ -23,7 +24,9 @@ func GetConfigControllerInstance() *ConfigController {
 
 // FindAllByParentId 根据父Id 查询所有配置
 func (c *ConfigController) FindAllByParentId(parentId uint) api.RespData[[]vo.ConfigTreeVo] {
+	fmt.Println("parentId:", parentId)
 	data := configControllerInstance.FindAllByParentId(parentId)
+	fmt.Println("data:", data)
 	return api.Success[[]vo.ConfigTreeVo](data, "")
 }
 
@@ -33,9 +36,9 @@ func (c *ConfigController) FindById(id uint) api.RespData[vo.ConfigTreeVo] {
 }
 
 // Insert 保存
-func (c *ConfigController) Insert(config vo.ConfigTreeVo) api.RespData[types.Nil] {
-	configControllerInstance.Insert(config)
-	return api.Success[types.Nil](types.Nil{}, "")
+func (c *ConfigController) Insert(config vo.ConfigTreeVo) api.RespData[vo.ConfigTreeVo] {
+	data := configControllerInstance.Insert(config)
+	return api.Success(data, "")
 }
 
 // Update 更新

@@ -1,9 +1,24 @@
-import {GoodsAll, GoodsTypeSelectAll, MemberAll, MemberLevelSelectAll} from "../../wailsjs/go/main/App.js";
+import {
+    ConfigGetByKey,
+    GoodsAll,
+    GoodsTypeSelectAll,
+    MemberAll,
+    MemberLevelSelectAll,
+} from "../../wailsjs/go/main/App.js";
 
 //会员等级
 export async function getMemberLevelSelect() {
     let select
     await MemberLevelSelectAll().then(resp => {
+        select = resp.data
+    })
+    return select
+}
+
+export async  function getClassConfigSelect(){
+    let select
+    // 固定为3
+    await ConfigGetByKey(3).then(resp=>{
         select = resp.data
     })
     return select

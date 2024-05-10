@@ -23,4 +23,5 @@ type UserVo struct {
 	Group          string `json:"group"`
 	EmployeeNumber string `json:"employeeNumber"`
 	ConfigFileID   int    `json:"configFileId"`
+	ConfigName     string `json:"configName"`
 }

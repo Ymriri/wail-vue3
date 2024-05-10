@@ -39,5 +39,6 @@ func ToUserVo(e entity.User) vo.UserVo {
 		Group:          e.Group,
 		EmployeeNumber: e.EmployeeNumber,
 		ConfigFileID:   e.ConfigFileID,
+		ConfigName:     e.ConfigTree.ConfigName,
 	}
 }

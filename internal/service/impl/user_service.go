@@ -5,6 +5,7 @@
 package impl
 
 import (
+	"fmt"
 	"goods-system/internal/application/vo"
 	"goods-system/internal/infrastructure/common/api"
 	"goods-system/internal/infrastructure/common/convert"
@@ -24,6 +25,7 @@ func GetUserServiceInstance() *UserService {
 // Page 分页查询
 func (u *UserService) Page(param vo.UserPageVo, page, size int) api.Page[vo.UserVo] {
 	uservo := convert.ToUserByPageVo(param)
+	fmt.Println(uservo)
 	pageData := userRepo.Page(&uservo, page, size)
 	userList := pageData.Data
 	var userVoList []vo.UserVo
@@ -31,6 +33,7 @@ func (u *UserService) Page(param vo.UserPageVo, page, size int) api.Page[vo.User
 		userVo := convert.ToUserVo(e)
 		userVoList = append(userVoList, userVo)
 	}
+
 	return api.Page[vo.UserVo]{
 		Page:  pageData.Page,
 		Size:  pageData.Size,

@@ -93,7 +93,7 @@ func (a *App) ConfigGetById(id uint) api.RespData[vo.ConfigTreeVo] {
 }
 
 // ConfigInsert 保存
-func (a *App) ConfigInsert(config vo.ConfigTreeVo) api.RespData[types.Nil] {
+func (a *App) ConfigInsert(config vo.ConfigTreeVo) api.RespData[vo.ConfigTreeVo] {
 	return configController.Insert(config)
 }
 

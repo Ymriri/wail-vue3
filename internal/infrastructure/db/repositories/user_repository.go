@@ -25,19 +25,22 @@ func (p *UserRepository) Page(user *entity.User, page, size int) api.Page[entity
 	var total int64
 	var userList []entity.User
 	tx := global.DB.Model(&entity.User{})
+
 	if user.Name != "" {
 		// gorm 模糊查询
 		tx.Where("name like ?", "%"+user.Name+"%")
 	}
 	// -1 表示查询所有
-	if user.Grade != "" {
-		tx.Where("grade = ?", user.Grade)
+	// 不能为空
+	if user.ConfigFileID != -1 {
+		tx.Where("config_file_id = ?", user.ConfigFileID)
 	}
-	tx.Count(&total).
+	// 预加载
+	tx.Preload("ConfigTree").
+		Count(&total).
 		Limit(size).
 		Offset((page - 1) * size).
 		Find(&userList)
-
 	return api.Page[entity.User]{
 		Page:  page,
 		Size:  size,
