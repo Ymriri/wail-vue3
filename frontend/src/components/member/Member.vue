@@ -89,13 +89,13 @@ function memberEditDialogClose() {
 <template>
   <!--  查询表单  -->
   <el-form :inline="true" :model="memberPageRequest">
-    <el-form-item label="会员名称">
-      <el-input v-model="memberPageRequest.name" placeholder="请输入会员名称" class="form-input" clearable/>
+    <el-form-item label="姓名">
+      <el-input v-model="memberPageRequest.name" placeholder="请输入姓名" class="form-input" clearable/>
     </el-form-item>
-    <el-form-item label="会员等级">
+    <el-form-item label="用户分组">
       <el-select
           v-model="memberPageRequest.levelId"
-          placeholder="请选择等级"
+          placeholder="请选择分组"
           clearable
           class="form-select"
           style="width: 120px"
@@ -103,9 +103,7 @@ function memberEditDialogClose() {
         <el-option v-for="item in memberLevelSelect" :key="item.id" :label="item.name" :value="item.id"/>
       </el-select>
     </el-form-item>
-    <el-form-item label="手机号">
-      <el-input v-model="memberPageRequest.phone" placeholder="请输入手机号" clearable/>
-    </el-form-item>
+
     <el-form-item>
       <el-button type="primary" @click="searchPageMember">查询</el-button>
     </el-form-item>

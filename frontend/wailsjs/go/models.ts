@@ -206,6 +206,40 @@ export namespace api {
 		    return a;
 		}
 	}
+	export class RespData[[]goods-system/internal/application/vo.TasksVo] {
+	    code: number;
+	    message: string;
+	    data: vo.TasksVo[];
+	
+	    static createFrom(source: any = {}) {
+	        return new RespData[[]goods-system/internal/application/vo.TasksVo](source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.code = source["code"];
+	        this.message = source["message"];
+	        this.data = this.convertValues(source["data"], vo.TasksVo);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 	export class RespData[go/types.Nil] {
 	    code: number;
 	    message: string;
@@ -377,6 +411,40 @@ export namespace api {
 		    return a;
 		}
 	}
+	export class RespData[goods-system/internal/application/vo.TasksVo] {
+	    code: number;
+	    message: string;
+	    data: vo.TasksVo;
+	
+	    static createFrom(source: any = {}) {
+	        return new RespData[goods-system/internal/application/vo.TasksVo](source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.code = source["code"];
+	        this.message = source["message"];
+	        this.data = this.convertValues(source["data"], vo.TasksVo);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 	export class RespData[goods-system/internal/infrastructure/common/api.Page[goods-system/internal/application/vo.GoodsVO]] {
 	    code: number;
 	    message: string;
@@ -527,6 +595,148 @@ export namespace api {
 	
 	    static createFrom(source: any = {}) {
 	        return new RespData[goods-system/internal/infrastructure/common/api.Page[goods-system/internal/application/vo.OrderVO]](source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.code = source["code"];
+	        this.message = source["message"];
+	        this.data = this.convertValues(source["data"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class Page[goods-system/internal/application/vo.TasksVo] {
+	    page: number;
+	    size: number;
+	    total: number;
+	    data: vo.TasksVo[];
+	
+	    static createFrom(source: any = {}) {
+	        return new Page[goods-system/internal/application/vo.TasksVo](source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.page = source["page"];
+	        this.size = source["size"];
+	        this.total = source["total"];
+	        this.data = this.convertValues(source["data"], vo.TasksVo);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class RespData[goods-system/internal/infrastructure/common/api.Page[goods-system/internal/application/vo.TasksVo]] {
+	    code: number;
+	    message: string;
+	    // Go type: Page[goods-system/internal/application/vo
+	    data: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new RespData[goods-system/internal/infrastructure/common/api.Page[goods-system/internal/application/vo.TasksVo]](source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.code = source["code"];
+	        this.message = source["message"];
+	        this.data = this.convertValues(source["data"], null);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class Page[goods-system/internal/application/vo.UserVo] {
+	    page: number;
+	    size: number;
+	    total: number;
+	    data: vo.UserVo[];
+	
+	    static createFrom(source: any = {}) {
+	        return new Page[goods-system/internal/application/vo.UserVo](source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.page = source["page"];
+	        this.size = source["size"];
+	        this.total = source["total"];
+	        this.data = this.convertValues(source["data"], vo.UserVo);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class RespData[goods-system/internal/infrastructure/common/api.Page[goods-system/internal/application/vo.UserVo]] {
+	    code: number;
+	    message: string;
+	    // Go type: Page[goods-system/internal/application/vo
+	    data: any;
+	
+	    static createFrom(source: any = {}) {
+	        return new RespData[goods-system/internal/infrastructure/common/api.Page[goods-system/internal/application/vo.UserVo]](source);
 	    }
 	
 	    constructor(source: any = {}) {
@@ -853,6 +1063,116 @@ export namespace request {
 		    return a;
 		}
 	}
+	export class TasksPageRequest {
+	    taskName: string;
+	    tasksStatus: number;
+	    page: number;
+	    size: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new TasksPageRequest(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.taskName = source["taskName"];
+	        this.tasksStatus = source["tasksStatus"];
+	        this.page = source["page"];
+	        this.size = source["size"];
+	    }
+	}
+	export class TasksSaveRequest {
+	    taskName: string;
+	    taskDescription: string;
+	    // Go type: time
+	    taskStartTime: any;
+	    // Go type: time
+	    taskEndTime: any;
+	    // Go type: time
+	    taskDeadline: any;
+	    taskStatus: number;
+	    accessPath: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new TasksSaveRequest(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.taskName = source["taskName"];
+	        this.taskDescription = source["taskDescription"];
+	        this.taskStartTime = this.convertValues(source["taskStartTime"], null);
+	        this.taskEndTime = this.convertValues(source["taskEndTime"], null);
+	        this.taskDeadline = this.convertValues(source["taskDeadline"], null);
+	        this.taskStatus = source["taskStatus"];
+	        this.accessPath = source["accessPath"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class TasksUpdateRequest {
+	    id: number;
+	    taskName: string;
+	    taskDescription: string;
+	    // Go type: time
+	    taskStartTime: any;
+	    // Go type: time
+	    taskEndTime: any;
+	    // Go type: time
+	    taskDeadline: any;
+	    taskStatus: number;
+	    accessPath: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new TasksUpdateRequest(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.taskName = source["taskName"];
+	        this.taskDescription = source["taskDescription"];
+	        this.taskStartTime = this.convertValues(source["taskStartTime"], null);
+	        this.taskEndTime = this.convertValues(source["taskEndTime"], null);
+	        this.taskDeadline = this.convertValues(source["taskDeadline"], null);
+	        this.taskStatus = source["taskStatus"];
+	        this.accessPath = source["accessPath"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 
 }
 
@@ -1072,6 +1392,97 @@ export namespace vo {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.path = source["path"];
+	    }
+	}
+	export class TasksVo {
+	    id: number;
+	    taskName: string;
+	    taskDescription: string;
+	    // Go type: time
+	    taskStartTime: any;
+	    // Go type: time
+	    taskEndTime: any;
+	    // Go type: time
+	    taskDeadline: any;
+	    taskStatus: number;
+	    accessPath: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new TasksVo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.taskName = source["taskName"];
+	        this.taskDescription = source["taskDescription"];
+	        this.taskStartTime = this.convertValues(source["taskStartTime"], null);
+	        this.taskEndTime = this.convertValues(source["taskEndTime"], null);
+	        this.taskDeadline = this.convertValues(source["taskDeadline"], null);
+	        this.taskStatus = source["taskStatus"];
+	        this.accessPath = source["accessPath"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class UserPageVo {
+	    name: string;
+	    configFileID: number;
+	    page: number;
+	    size: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new UserPageVo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.name = source["name"];
+	        this.configFileID = source["configFileID"];
+	        this.page = source["page"];
+	        this.size = source["size"];
+	    }
+	}
+	export class UserVo {
+	    id: number;
+	    name: string;
+	    grade: string;
+	    class: string;
+	    department: string;
+	    group: string;
+	    employeeNumber: string;
+	    configFileId: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new UserVo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.name = source["name"];
+	        this.grade = source["grade"];
+	        this.class = source["class"];
+	        this.department = source["department"];
+	        this.group = source["group"];
+	        this.employeeNumber = source["employeeNumber"];
+	        this.configFileId = source["configFileId"];
 	    }
 	}
 

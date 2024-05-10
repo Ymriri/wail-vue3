@@ -35,6 +35,8 @@ func Db() *gorm.DB {
 			err = db.AutoMigrate(&entity.ConfigTree{})
 			// 任务配置
 			err = db.AutoMigrate(&entity.TaskSettings{})
+			// 用户配置
+			err = db.AutoMigrate(&entity.User{})
 			if err != nil {
 				log.Fatal("自动迁移时发生错误", err.Error())
 			}

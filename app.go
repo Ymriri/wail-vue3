@@ -18,6 +18,7 @@ var memberLevelController = controller.GetMemberLevelController()
 var orderController = controller.GetOrderController()
 var systemController = controller.GetSystemController()
 var taskController = controller.GetTasksController()
+var userController = controller.GetUserControllerInstance()
 
 // App struct
 type App struct {
@@ -53,6 +54,26 @@ func (a *App) TasksSave(req request.TasksSaveRequest) api.RespData[types.Nil] {
 
 func (a *App) TaskUpdate(req request.TasksUpdateRequest) api.RespData[types.Nil] {
 	return taskController.TaskUpdate(req)
+}
+
+// 用户查询页面
+func (a *App) UserPage(req vo.UserPageVo) api.RespData[api.Page[vo.UserVo]] {
+	return userController.UserPage(req)
+}
+
+// 用户保存
+func (a *App) UserSave(req vo.UserVo) api.RespData[types.Nil] {
+	return userController.Save(req)
+}
+
+// 用户删除
+func (a *App) UserDelete(id uint) api.RespData[types.Nil] {
+	return userController.Delete(id)
+}
+
+// 用户更新
+func (a *App) UserUpdate(req vo.UserVo) api.RespData[types.Nil] {
+	return userController.Update(req)
 }
 
 func (a *App) TasksDelete(id string) api.RespData[types.Nil] {

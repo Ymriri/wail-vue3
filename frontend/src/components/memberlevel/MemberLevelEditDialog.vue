@@ -23,7 +23,6 @@ watchEffect(()=>{
   }else{
     form.value = {
       name:'',
-      discount:''
     }
     isEdit.value = false
   }
@@ -56,12 +55,10 @@ function closeMemberLevelDialog() {
 
 <template>
   <el-form :model="form">
-    <el-form-item label="会员等级">
+    <el-form-item label="分组名称">
       <el-input v-model="form.name"/>
     </el-form-item>
-    <el-form-item label="折扣">
-      <el-input v-model="form.discount"/>
-    </el-form-item>
+
     <el-form-item>
       <el-button type="primary" @click="onSubmit">确认</el-button>
       <el-button @click="closeMemberLevelDialog">取消</el-button>
