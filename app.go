@@ -19,6 +19,7 @@ var orderController = controller.GetOrderController()
 var systemController = controller.GetSystemController()
 var taskController = controller.GetTasksController()
 var userController = controller.GetUserControllerInstance()
+var configController = controller.GetConfigControllerInstance()
 
 // App struct
 type App struct {
@@ -80,6 +81,34 @@ func (a *App) TasksDelete(id string) api.RespData[types.Nil] {
 	return taskController.TaskDelete(id)
 
 }
+
+// ConfigGetByKey 根据配置文件查询
+func (a *App) ConfigGetByKey(fId uint) api.RespData[[]vo.ConfigTreeVo] {
+	return configController.FindAllByParentId(fId)
+}
+
+// ConfigGetById 根据id查询
+func (a *App) ConfigGetById(id uint) api.RespData[vo.ConfigTreeVo] {
+	return configController.FindById(id)
+}
+
+// ConfigInsert 保存
+func (a *App) ConfigInsert(config vo.ConfigTreeVo) api.RespData[types.Nil] {
+	return configController.Insert(config)
+}
+
+// ConfigUpdate 更新
+func (a *App) ConfigUpdate(config vo.ConfigTreeVo) api.RespData[types.Nil] {
+	return configController.Update(config)
+}
+
+// ConfigDelete 删除
+func (a *App) ConfigDelete(id uint) api.RespData[types.Nil] {
+	return configController.Delete(id)
+}
+
+/**----------------------------------------------------------------------------------------**/
+
 func (a *App) GoodsGetById(id string) api.RespData[vo.GoodsVO] {
 	return goodsController.GoodsGetById(id)
 }
