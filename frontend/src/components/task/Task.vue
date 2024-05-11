@@ -81,6 +81,10 @@ import {ElMessageBox} from "element-plus";
 import {Delete, Edit} from "@element-plus/icons-vue";
 import GoodsDeleteDialog from "./TaskDeleteDialog.vue";
 import {errElMessage} from "../../utils/el-message-utils.js";
+import {useRouter} from 'vue-router';
+
+// 页面跳转
+const router = useRouter()
 
 //对话框可显示
 const dialogVisible = ref(false)
@@ -158,9 +162,14 @@ function addGoods() {
   currentTaskVO.value = null
 }
 
+// 跳转详情
 function showDetails(row) {
-  // 这里触发跳转页面
-  console.log(row)
+  router.push({
+    path: '/taskdetail',
+    query: {
+      id: row.id,
+    }
+  })
 }
 
 //编辑任务

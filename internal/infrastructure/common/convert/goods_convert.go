@@ -103,7 +103,7 @@ func ToTasksSaveParam(param param.TasksSaveParam) entity.TaskSettings {
 
 func ToTaskVO(tasksDTO dto.TasksDTO) vo.TasksVo {
 	return vo.TasksVo{
-		ID:              tasksDTO.ID,
+		ID:              utils.ToUInt64(tasksDTO.ID),
 		TaskName:        tasksDTO.TaskName,
 		TaskDescription: tasksDTO.TaskDescription,
 		TaskStartTime:   tasksDTO.TaskStartTime,

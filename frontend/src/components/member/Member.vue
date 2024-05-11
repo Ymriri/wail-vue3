@@ -195,11 +195,8 @@ const tempUser = ref([])
 
 //页面加载后执行
 onMounted(async () => {
-
-  // searchPageMember()
   reloaddd()
-  // console.log(ClassConfigSelect)
-  // console.log(ClassConfigSelect.value)
+  searchPageUser()
 })
 
 

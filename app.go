@@ -43,7 +43,7 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-func (a *App) TasksGetById(id string) api.RespData[vo.TasksVo] {
+func (a *App) TasksGetById(id uint64) api.RespData[vo.TasksVo] {
 	return taskController.TaskGetById(id)
 }
 

@@ -7,7 +7,7 @@ package vo
 import "time"
 
 type TasksVo struct {
-	ID              uint      `json:"id"`
+	ID              uint64    `json:"id"`
 	TaskName        string    `json:"taskName"`
 	TaskDescription string    `json:"taskDescription"`
 	TaskStartTime   time.Time `json:"taskStartTime"`

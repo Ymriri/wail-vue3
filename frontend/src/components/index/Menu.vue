@@ -31,7 +31,7 @@ function menuClick(index) {
       </el-icon>
       <span>任务列表</span>
     </el-menu-item>
-    <el-menu-item index="/order">
+    <el-menu-item index="/taskDetail">
       <el-icon>
         <Box/>
       </el-icon>

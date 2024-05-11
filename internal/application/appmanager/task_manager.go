@@ -74,7 +74,7 @@ func (p *TasksManager) All() []vo.TasksVo {
 }
 
 // GetById 根据id获得商品
-func (p *TasksManager) GetById(id string) vo.TasksVo {
-	taskDto := tasksService.GetById(utils.ToUInt64(id))
+func (p *TasksManager) GetById(id uint64) vo.TasksVo {
+	taskDto := tasksService.GetById(id)
 	return convert.ToTaskVO(taskDto)
 }

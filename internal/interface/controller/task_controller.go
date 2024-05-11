@@ -24,7 +24,7 @@ func GetTaskManagerInstance() *TasksController {
 }
 
 // GoodsGetById 根据id获得商品
-func (p *TasksController) TaskGetById(id string) api.RespData[vo.TasksVo] {
+func (p *TasksController) TaskGetById(id uint64) api.RespData[vo.TasksVo] {
 	taskvo := taskManager.GetById(id)
 	return api.Success(taskvo, "")
 }
