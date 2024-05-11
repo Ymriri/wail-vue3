@@ -35,15 +35,14 @@ type TasksPageParam struct {
 
 // tasksSaveParam 商品保存
 type TasksSaveParam struct {
-	ID uint `json:"id"`
-	//任务名称
-	TaskName string `json:"taskName"`
-	//商品类型
-	TaskDescription string `json:"taskDescription"`
-	//商品编号
-	TaskStartTime time.Time `json:"taskStartTime"`
-	TaskEndTime   time.Time `json:"taskEndTime"`
-	TaskDeadline  time.Time `json:"taskDeadline"`
-	TaskStatus    int       `json:"taskStatus"` // 0:未开始 1:进行中 2:已结束
-	AccessPath    string    `json:"accessPath"`
+	ID              uint      `json:"id"`
+	TaskName        string    `json:"taskName"`
+	TaskDescription string    `json:"taskDescription"`
+	TaskStartTime   time.Time `json:"taskStartTime"`
+	TaskEndTime     time.Time `json:"taskEndTime"`
+	TaskDeadline    time.Time `json:"taskDeadline"`
+	TaskStatus      int       `json:"taskStatus"` // 0:未开始 1:进行中 2:已结束
+	AccessPath      string    `json:"accessPath"`
+	MathRegulation  string    `json:"mathRegulation"`
+	ConfigID        int       `json:"configID"`
 }

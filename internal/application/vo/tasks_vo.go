@@ -15,4 +15,6 @@ type TasksVo struct {
 	TaskDeadline    time.Time `json:"taskDeadline"`
 	TaskStatus      int       `json:"taskStatus"`
 	AccessPath      string    `json:"accessPath"`
+	MathRegulation  string    `json:"mathRegulation"`
+	ConfigID        int       `gorm:"configId"`
 }

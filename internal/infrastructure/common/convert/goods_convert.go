@@ -84,6 +84,8 @@ func ToTasksDTO(tasks entity.TaskSettings) dto.TasksDTO {
 		TaskStartTime:   tasks.TaskStartTime,
 		TaskEndTime:     tasks.TaskEndTime,
 		TaskDeadline:    tasks.TaskDeadline,
+		ConfigID:        tasks.ConfigID,
+		MathRegulation:  tasks.MathRegulation,
 	}
 }
 

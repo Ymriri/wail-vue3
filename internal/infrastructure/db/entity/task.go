@@ -21,5 +21,7 @@ type TaskSettings struct {
 	AccessPath       string    `gorm:"type:text"`
 	TaskFolder       string    `gorm:"type:text"`
 	ResubmissionPath string    `gorm:"type:text"`
+	MathRegulation   string    `gorm:"type:text"`
+	ConfigID         int       `gorm:"type:int;"`
 	IsResubmission   int       `gorm:"DEFAULT:0"`
 }

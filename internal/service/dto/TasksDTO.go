@@ -18,4 +18,6 @@ type TasksDTO struct {
 	TaskFolder       string
 	ResubmissionPath string
 	IsResubmission   int
+	MathRegulation   string
+	ConfigID         int
 }
