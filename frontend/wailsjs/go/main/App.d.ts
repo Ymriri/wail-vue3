@@ -72,6 +72,18 @@ export function SystemBackup(arg1:string):Promise<api.RespData[go/types>;
 
 export function SystemDesktopPath():Promise<api.RespData[goods-system/internal/application/vo>;
 
+export function TaskDetailBatchInsert(arg1:Array<vo.TaskDetailVO>):Promise<api.RespData[go/types>;
+
+export function TaskDetailDelete(arg1:number):Promise<api.RespData[go/types>;
+
+export function TaskDetailDeleteByTaskId(arg1:number):Promise<api.RespData[go/types>;
+
+export function TaskDetailGetByTask(arg1:vo.TaskDetailVO):Promise<api.RespData[[]goods-system/internal/application/vo>;
+
+export function TaskDetailSave(arg1:vo.TaskDetailVO):Promise<api.RespData[go/types>;
+
+export function TaskDetailUpdate(arg1:vo.TaskDetailVO):Promise<api.RespData[go/types>;
+
 export function TaskUpdate(arg1:request.TasksUpdateRequest):Promise<api.RespData[go/types>;
 
 export function TasksAll():Promise<api.RespData[[]goods-system/internal/application/vo>;

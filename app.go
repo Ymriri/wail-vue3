@@ -23,6 +23,7 @@ var systemController = controller.GetSystemController()
 var taskController = controller.GetTasksController()
 var userController = controller.GetUserControllerInstance()
 var configController = controller.GetConfigControllerInstance()
+var taskDetailController = controller.GetTaskDetailControllerInstance()
 
 // excel 读取
 var excelUtil = impl.GetLoadFileService()
@@ -116,6 +117,36 @@ func (a *App) ConfigUpdate(config vo.ConfigTreeVo) api.RespData[types.Nil] {
 // ConfigDelete 删除
 func (a *App) ConfigDelete(id uint) api.RespData[types.Nil] {
 	return configController.Delete(id)
+}
+
+// TaskDetailGetByTask 查询任务下所有的子任务
+func (a *App) TaskDetailGetByTask(param vo.TaskDetailVO) api.RespData[[]vo.TaskDetailVO] {
+	return taskDetailController.GetTaskDetailByTask(param)
+}
+
+// TaskDetailSave 保存任务
+func (a *App) TaskDetailSave(param vo.TaskDetailVO) api.RespData[types.Nil] {
+	return taskDetailController.Save(param)
+}
+
+// TaskDetailDelete 删除任务
+func (a *App) TaskDetailDelete(id uint) api.RespData[types.Nil] {
+	return taskDetailController.Delete(id)
+}
+
+// TaskDetailBatchInsert 批量删除
+func (a *App) TaskDetailBatchInsert(param []vo.TaskDetailVO) api.RespData[types.Nil] {
+	return taskDetailController.BatchInsert(param)
+}
+
+// TaskDetailDeleteByTaskId 根据任务id删除
+func (a *App) TaskDetailDeleteByTaskId(id uint64) api.RespData[types.Nil] {
+	return taskDetailController.DeleteByTaskId(id)
+}
+
+// TaskDetailUpdate 更新任务
+func (a *App) TaskDetailUpdate(param vo.TaskDetailVO) api.RespData[types.Nil] {
+	return taskDetailController.Update(param)
 }
 
 /**----------------------------------------------------------------------------------------**/

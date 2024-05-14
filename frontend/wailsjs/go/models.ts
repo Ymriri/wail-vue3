@@ -240,6 +240,40 @@ export namespace api {
 		    return a;
 		}
 	}
+	export class RespData[[]goods-system/internal/application/vo.TaskDetailVO] {
+	    code: number;
+	    message: string;
+	    data: vo.TaskDetailVO[];
+	
+	    static createFrom(source: any = {}) {
+	        return new RespData[[]goods-system/internal/application/vo.TaskDetailVO](source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.code = source["code"];
+	        this.message = source["message"];
+	        this.data = this.convertValues(source["data"], vo.TaskDetailVO);
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 	export class RespData[[]goods-system/internal/application/vo.TasksVo] {
 	    code: number;
 	    message: string;
@@ -1206,6 +1240,8 @@ export namespace request {
 	    taskDeadline: any;
 	    taskStatus: number;
 	    accessPath: string;
+	    mathRegulation: string;
+	    configId: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new TasksUpdateRequest(source);
@@ -1221,6 +1257,8 @@ export namespace request {
 	        this.taskDeadline = this.convertValues(source["taskDeadline"], null);
 	        this.taskStatus = source["taskStatus"];
 	        this.accessPath = source["accessPath"];
+	        this.mathRegulation = source["mathRegulation"];
+	        this.configId = source["configId"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -1463,6 +1501,78 @@ export namespace vo {
 	        this.path = source["path"];
 	    }
 	}
+	export class UserVo {
+	    id: number;
+	    name: string;
+	    grade: string;
+	    class: string;
+	    department: string;
+	    group: string;
+	    employeeNumber: string;
+	    configFileId: number;
+	    configName: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new UserVo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.name = source["name"];
+	        this.grade = source["grade"];
+	        this.class = source["class"];
+	        this.department = source["department"];
+	        this.group = source["group"];
+	        this.employeeNumber = source["employeeNumber"];
+	        this.configFileId = source["configFileId"];
+	        this.configName = source["configName"];
+	    }
+	}
+	export class TaskDetailVO {
+	    id: number;
+	    user: UserVo;
+	    taskID: number;
+	    taskStatus: number;
+	    preFileName: string;
+	    fileName: string;
+	    userId: number;
+	    taskConfigName: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new TaskDetailVO(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.user = this.convertValues(source["user"], UserVo);
+	        this.taskID = source["taskID"];
+	        this.taskStatus = source["taskStatus"];
+	        this.preFileName = source["preFileName"];
+	        this.fileName = source["fileName"];
+	        this.userId = source["userId"];
+	        this.taskConfigName = source["taskConfigName"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 	export class TasksVo {
 	    id: number;
 	    taskName: string;
@@ -1475,6 +1585,7 @@ export namespace vo {
 	    taskDeadline: any;
 	    taskStatus: number;
 	    accessPath: string;
+	    mathRegulation: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new TasksVo(source);
@@ -1490,6 +1601,7 @@ export namespace vo {
 	        this.taskDeadline = this.convertValues(source["taskDeadline"], null);
 	        this.taskStatus = source["taskStatus"];
 	        this.accessPath = source["accessPath"];
+	        this.mathRegulation = source["mathRegulation"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -1526,34 +1638,6 @@ export namespace vo {
 	        this.configFileID = source["configFileID"];
 	        this.page = source["page"];
 	        this.size = source["size"];
-	    }
-	}
-	export class UserVo {
-	    id: number;
-	    name: string;
-	    grade: string;
-	    class: string;
-	    department: string;
-	    group: string;
-	    employeeNumber: string;
-	    configFileId: number;
-	    configName: string;
-	
-	    static createFrom(source: any = {}) {
-	        return new UserVo(source);
-	    }
-	
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.id = source["id"];
-	        this.name = source["name"];
-	        this.grade = source["grade"];
-	        this.class = source["class"];
-	        this.department = source["department"];
-	        this.group = source["group"];
-	        this.employeeNumber = source["employeeNumber"];
-	        this.configFileId = source["configFileId"];
-	        this.configName = source["configName"];
 	    }
 	}
 

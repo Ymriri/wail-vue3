@@ -13,7 +13,7 @@
           </el-form-item>
           <el-form-item label="选择分组：" label-width="110px">
             <el-select
-                v-model="newClassConfig.configFileID"
+                v-model="nowTask.ConfigID"
                 placeholder="请选择分组"
                 clearable
                 class="form-select"
@@ -41,28 +41,15 @@
             <el-input v-model="nowTask.taskEndTime" disabled/>
           </el-form-item>
         </div>
-        <!--        设置在同一行对齐-->
-
         <div style="display: flex;margin: auto;">
-
 
         </div>
         <div style="display: flex;margin: auto;">
           <el-form-item label="文件格式：" label-width="110px">
-            <el-input v-model="nowTask.accessPath"/>
+            <el-input v-model="nowTask.mathRegulation"/>
           </el-form-item>
-          <!--          <el-form-item style="margin-left: 1%">-->
-          <!--            <el-input v-model="nowTask.month" style="width: 10px"/>-->
-          <!--            <el-text>月</el-text>-->
-          <!--          </el-form-item>-->
-          <!--          <el-form-item label="" label-width="10px">-->
-          <!--            <el-input v-model="nowTask.count"/>-->
-          <!--          </el-form-item>-->
-          <!--          <el-form-item label="周" label-width="10px">-->
-          <!--            <el-input v-model="nowTask.week"/>-->
-          <!--          </el-form-item>-->
           <el-button type="primary" style="margin-left: 7%">预览生成</el-button>
-          <el-button type="primary" style="margin-left: 7%">确定格式</el-button>
+          <el-button type="primary" style="margin-left: 7%" @click="taskSubmitInsure">确定格式</el-button>
           <el-button type="primary" style="margin-left: 7%">生成子任务</el-button>
         </div>
         <div style="display: flex;margin: auto;">
@@ -151,9 +138,8 @@
 <script setup>
 
 import {onMounted, onUnmounted, ref} from "vue";
-import {allMemberSelect, getClassConfigSelect} from "../../api/select.js";
-import {GoodsGetById, MemberGetById, Order, TasksGetById} from "../../../wailsjs/go/main/App.js";
-import {ElMessage} from "element-plus";
+import {getClassConfigSelect} from "../../api/select.js";
+import {Order, TasksGetById, TaskUpdate} from "../../../wailsjs/go/main/App.js";
 import {errElMessage, msgElMessage} from "../../utils/el-message-utils.js";
 
 import {useRoute} from 'vue-router';
@@ -225,8 +211,6 @@ const memberForm = ref({
 const bills = ref([])
 const totalPrice = ref('0')
 const pay = ref('0')
-const goodsSelect = ref([])
-const memberSelect = ref([])
 // 当前任务
 const nowTask = ref({
   id: '',
@@ -240,6 +224,9 @@ const nowTask = ref({
   count: '',
   week: '',
   month: '',
+  ConfigID: '',
+  mathRegulation: '', // 文件格式
+
 });
 
 onMounted(async () => {
@@ -280,7 +267,6 @@ function getNowTaskMessage(id) {
       nowTaskButtonTitle.value.title = "重新开始"
       nowTaskButtonTitle.value.type = "warning"
     }
-    console.log(nowTask.value)
   }).catch(err => {
     errElMessage(err)
   })
@@ -321,85 +307,24 @@ function onSubmit() {
   }
 }
 
-//加入购物车
-function addCart() {
-  let bill = {
-    goodsId: goodsForm.value.id,
-    goodsName: goodsForm.value.name,
-    goodsNumber: goodsForm.value.goodsNumber,
-    goodsType: goodsForm.value.goodsType,
-    price: goodsForm.value.price,
-    realPrice: form.value.realPrice,
-    num: form.value.num,
-  }
-  if (goodsForm.value.count < bill.num) {
-    ElMessage.warning(goodsForm.value.name + "库存不足，库存数量为" + goodsForm.value.count)
+// 确定格式
+function taskSubmitInsure() {
+  console.log("确定格式")
+  console.log(nowTask.value)
+  // 检查文件格式和分组是否选择
+  if (nowTask.value.mathRegulation === '' || nowTask.value.configId === '') {
+    msgElMessage("文件格式和分组不能为空")
     return
   }
-  for (let i = 0; i < bills.value.length; i++) {
-    if (bills.value[i].goodsId === bill.goodsId) {
-      ElMessage.warning(bills.value[i].goodsName + "商品已加入购物车")
-      return
-    }
-  }
-  bills.value.push(bill)
-  calcTotalPrice()
-}
-
-// 切换商品
-function changeGoods(goodsId) {
-  GoodsGetById(goodsId).then(resp => {
-    goodsForm.value.id = resp.data.id
-    goodsForm.value.name = resp.data.name
-    goodsForm.value.goodsType = resp.data.goodsType
-    goodsForm.value.goodsNumber = resp.data.goodsNumber
-    goodsForm.value.price = resp.data.price
-    goodsForm.value.count = resp.data.count
-    calcRealPrice()
+  TaskUpdate(nowTask.value).then(resp => {
+    msgElMessage(resp, "保存成功!")
+    // 重新刷新
+    getNowTaskMessage(nowTaskId.value)
+  }).catch(err => {
+    errElMessage(err)
   })
-}
+  // 提交文件格式
 
-//deleteGoods 删除商品
-function deleteGoods(row) {
-  for (let i = 0; i < bills.value.length; i++) {
-    if (bills.value[i].goodsId === row.goodsId) {
-      bills.value.splice(i, 1)
-      break
-    }
-  }
-  calcTotalPrice()
-}
-
-// 根据手机号过滤
-async function filterMember(phone) {
-  memberSelect.value = await allMemberSelect()
-  if (phone) {
-    let select = []
-    for (let i = 0; i < memberSelect.value.length; i++) {
-      let member = memberSelect.value[i]
-      if (member.phone.includes(phone)) {
-        select.push(member)
-      }
-    }
-    memberSelect.value = select
-  }
-}
-
-// 切换会员
-function changeMember(memberId) {
-  MemberGetById(memberId).then(resp => {
-    memberForm.value.id = resp.data.id
-    memberForm.value.name = resp.data.name
-    memberForm.value.level = resp.data.level.name
-    memberForm.value.discount = resp.data.level.discount
-    memberForm.value.account = resp.data.account
-    calcRealPrice()
-  })
-}
-
-//修改商品数量
-function changeGoodsNum() {
-  calcTotalPrice()
 }
 
 //计算实际支付

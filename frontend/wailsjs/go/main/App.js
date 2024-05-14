@@ -138,6 +138,30 @@ export function SystemDesktopPath() {
   return window['go']['main']['App']['SystemDesktopPath']();
 }
 
+export function TaskDetailBatchInsert(arg1) {
+  return window['go']['main']['App']['TaskDetailBatchInsert'](arg1);
+}
+
+export function TaskDetailDelete(arg1) {
+  return window['go']['main']['App']['TaskDetailDelete'](arg1);
+}
+
+export function TaskDetailDeleteByTaskId(arg1) {
+  return window['go']['main']['App']['TaskDetailDeleteByTaskId'](arg1);
+}
+
+export function TaskDetailGetByTask(arg1) {
+  return window['go']['main']['App']['TaskDetailGetByTask'](arg1);
+}
+
+export function TaskDetailSave(arg1) {
+  return window['go']['main']['App']['TaskDetailSave'](arg1);
+}
+
+export function TaskDetailUpdate(arg1) {
+  return window['go']['main']['App']['TaskDetailUpdate'](arg1);
+}
+
 export function TaskUpdate(arg1) {
   return window['go']['main']['App']['TaskUpdate'](arg1);
 }

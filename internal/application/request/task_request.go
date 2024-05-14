@@ -40,4 +40,6 @@ type TasksUpdateRequest struct {
 	TaskDeadline    time.Time `json:"taskDeadline"`
 	TaskStatus      int       `json:"taskStatus"` // 0:未开始 1:进行中 2:已结束
 	AccessPath      string    `json:"accessPath"`
+	MathRegulation  string    `json:"mathRegulation"`
+	ConfigId        int       `json:"configId"`
 }

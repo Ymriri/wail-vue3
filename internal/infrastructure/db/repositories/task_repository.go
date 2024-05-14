@@ -100,6 +100,14 @@ func (p *TaskRepository) UpdateById(task *entity.TaskSettings) {
 		updates["task_end_time"] = task.TaskEndTime
 		flag = true
 	}
+	if task.ConfigID != old.ConfigID {
+		updates["config_id"] = task.ConfigID
+		flag = true
+	}
+	if task.MathRegulation != old.MathRegulation {
+		updates["math_regulation"] = task.MathRegulation
+		flag = true
+	}
 	if flag {
 		updates["updated_at"] = time.Now()
 		// goods为新属性

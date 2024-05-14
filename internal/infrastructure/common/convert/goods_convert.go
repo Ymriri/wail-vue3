@@ -99,6 +99,8 @@ func ToTasksSaveParam(param param.TasksSaveParam) entity.TaskSettings {
 		TaskDeadline:    param.TaskDeadline,
 		TaskStatus:      param.TaskStatus,
 		AccessPath:      param.AccessPath,
+		ConfigID:        param.ConfigID,
+		MathRegulation:  param.MathRegulation,
 	}
 
 }
@@ -113,6 +115,8 @@ func ToTaskVO(tasksDTO dto.TasksDTO) vo.TasksVo {
 		TaskDeadline:    tasksDTO.TaskDeadline,
 		TaskStatus:      tasksDTO.TaskStatus,
 		AccessPath:      tasksDTO.AccessPath,
+		MathRegulation:  tasksDTO.MathRegulation,
+		ConfigID:        tasksDTO.ConfigID,
 	}
 
 }
@@ -154,6 +158,8 @@ func ToTaskUpdateParam(req request.TasksUpdateRequest) param.TasksSaveParam {
 		TaskDeadline:    req.TaskDeadline,
 		TaskStatus:      req.TaskStatus,
 		AccessPath:      req.AccessPath,
+		ConfigID:        req.ConfigId,
+		MathRegulation:  req.MathRegulation,
 	}
 }
 
@@ -204,6 +210,8 @@ func ToTasksBySaveParam(param param.TasksSaveParam) entity.TaskSettings {
 		TaskDeadline:    param.TaskDeadline,
 		TaskStatus:      param.TaskStatus,
 		AccessPath:      param.AccessPath,
+		ConfigID:        param.ConfigID,
+		MathRegulation:  param.MathRegulation,
 	}
 }
 

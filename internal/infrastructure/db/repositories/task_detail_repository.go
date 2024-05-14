@@ -16,7 +16,7 @@ var taskDetailInstance *TaskDetailRepository
 
 type TaskDetailRepository struct{}
 
-func NewTaskDetailRepository() *TaskDetailRepository {
+func GetTaskDetailRepository() *TaskDetailRepository {
 	return taskDetailInstance
 }
 
