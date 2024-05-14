@@ -14,6 +14,8 @@ export function ConfigInsert(arg1:vo.ConfigTreeVo):Promise<api.RespData[goods-sy
 
 export function ConfigUpdate(arg1:vo.ConfigTreeVo):Promise<api.RespData[go/types>;
 
+export function FileExpGetById(arg1:string,arg2:number):Promise<api.RespData[[]goods-system/internal/application/vo>;
+
 export function GoodsAll():Promise<api.RespData[[]goods-system/internal/application/vo>;
 
 export function GoodsDelete(arg1:string):Promise<api.RespData[go/types>;
@@ -103,5 +105,7 @@ export function UserDelete(arg1:number):Promise<api.RespData[go/types>;
 export function UserPage(arg1:vo.UserPageVo):Promise<api.RespData[goods-system/internal/infrastructure/common/api>;
 
 export function UserSave(arg1:vo.UserVo):Promise<api.RespData[go/types>;
+
+export function UserSelectGroup(arg1:vo.UserVo):Promise<api.RespData[[]goods-system/internal/application/vo>;
 
 export function UserUpdate(arg1:vo.UserVo):Promise<api.RespData[go/types>;

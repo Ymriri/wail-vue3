@@ -58,3 +58,15 @@ func (u *UserService) Update(param vo.UserVo) {
 	entity := convert.ToUserByVo(param)
 	userRepo.Update(&entity)
 }
+
+// 查询同一个分组的所有用户
+
+func (u *UserService) SelectByGroup(user vo.UserVo) []vo.UserVo {
+	userList := userRepo.All(user.ConfigFileID)
+	var userVoList []vo.UserVo
+	for _, e := range userList {
+		userVo := convert.ToUserVo(e)
+		userVoList = append(userVoList, userVo)
+	}
+	return userVoList
+}

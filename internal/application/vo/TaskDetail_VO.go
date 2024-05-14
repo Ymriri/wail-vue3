@@ -9,7 +9,7 @@ type TaskDetailVO struct {
 	// 用户信息
 	User UserVo `json:"user"`
 	// 任务ID
-	TaskID uint64 `json:"taskID"`
+	TaskID int `json:"taskID"`
 	// 任务状态
 	TaskStatus int `json:"taskStatus"`
 	// 生成的文件名
@@ -17,7 +17,7 @@ type TaskDetailVO struct {
 	// 上传的文件名
 	FileName string `json:"fileName"`
 	// 用户ID
-	UserId int `json:"userId"`
+	UserId uint `json:"userId"`
 	// 分组名称
 	TaskConfigName string `json:"taskConfigName"`
 }

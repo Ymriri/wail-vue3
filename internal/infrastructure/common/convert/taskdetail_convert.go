@@ -6,6 +6,7 @@ package convert
 
 import (
 	"goods-system/internal/application/vo"
+	"goods-system/internal/infrastructure/common/utils"
 	"goods-system/internal/infrastructure/db/entity"
 )
 
@@ -13,7 +14,7 @@ import (
 func ToTaskDetailByVo(param vo.TaskDetailVO) entity.TaskDetail {
 	return entity.TaskDetail{
 		ID:          param.ID,
-		TaskID:      param.TaskID,
+		TaskID:      utils.ToUInt64(param.TaskID),
 		TaskStatus:  param.TaskStatus,
 		PreFileName: param.PreFileName,
 		FileName:    param.FileName,
@@ -25,7 +26,7 @@ func ToTaskDetailByVo(param vo.TaskDetailVO) entity.TaskDetail {
 func ToTaskDetailVoByDetail(param entity.TaskDetail) vo.TaskDetailVO {
 	return vo.TaskDetailVO{
 		ID:          param.ID,
-		TaskID:      param.TaskID,
+		TaskID:      utils.ToInt(param.TaskID),
 		TaskStatus:  param.TaskStatus,
 		PreFileName: param.PreFileName,
 		FileName:    param.FileName,

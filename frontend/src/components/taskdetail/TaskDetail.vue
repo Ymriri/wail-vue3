@@ -41,16 +41,16 @@
             <el-input v-model="nowTask.taskEndTime" disabled/>
           </el-form-item>
         </div>
-        <div style="display: flex;margin: auto;">
+        <!--        <div style="display: flex;margin: auto;">-->
 
-        </div>
+        <!--        </div>-->
         <div style="display: flex;margin: auto;">
           <el-form-item label="文件格式：" label-width="110px">
             <el-input v-model="nowTask.mathRegulation"/>
           </el-form-item>
-          <el-button type="primary" style="margin-left: 7%">预览生成</el-button>
+          <el-button type="primary" style="margin-left: 7%" @click="preLoadTaskDetail">预览生成</el-button>
           <el-button type="primary" style="margin-left: 7%" @click="taskSubmitInsure">确定格式</el-button>
-          <el-button type="primary" style="margin-left: 7%">生成子任务</el-button>
+          <el-button type="primary" style="margin-left: 7%" @click="batchInsert">生成子任务</el-button>
         </div>
         <div style="display: flex;margin: auto;">
           <el-form-item label="任务状态：" label-width="110px">
@@ -93,56 +93,47 @@
                 <el-input v-model="taskDetailPage.week" style="width: 50px;"/>
                 <el-text style="margin-left: 2%">周</el-text>
               </div>
-              <el-button type="primary" style="margin-left: 7.8%">查询任务</el-button>
+              <el-button type="primary" style="margin-left: 7.8%" @click="searchTaskDetail">查询任务</el-button>
               <el-button type="warning" style="margin-left: 7.2%">导出文件</el-button>
             </div>
           </div>
 
         </template>
         <div>
-          <el-table :data="bills" stripe style="width: 100%">
-            <el-table-column prop="goodsName" label="子任务ID"/>
-            <el-table-column prop="name" label="姓名"/>
-            <el-table-column prop="employeeNumber" label="工号"/>
-            <el-table-column prop="class" label="班级"/>
-            <el-table-column prop="grade" label="年级"/>
-            <el-table-column prop="department" label="部门"/>
+          <el-table :data="taskDetailList" stripe style="width: 100%">
+            <el-table-column prop="id" label="子任务ID"/>
+            <el-table-column prop="user.name" label="姓名"/>
+            <el-table-column prop="user.employeeNumber" label="工号"/>
+            <el-table-column prop="user.class" label="班级"/>
+            <el-table-column prop="user.grade" label="年级"/>
+            <el-table-column prop="user.department" label="部门"/>
             <el-table-column prop="configName" label="科组"/>
-            <el-table-column prop="configName" label="格式对比"/>
-            <el-table-column prop="configName" label="文件名"/>
-            <el-table-column prop="configName" label="状态"/>
+            <el-table-column prop="preFileName" label="格式对比"/>
+            <el-table-column prop="fileName" label="文件名"/>
+            <el-table-column prop="taskStatusName" label="状态"/>
           </el-table>
         </div>
       </el-card>
     </el-main>
   </el-container>
 
-  <!--  用户余额不足对话框  -->
-  <el-dialog
-      v-model="dialogVisible"
-      title="余额不足"
-      width="500"
-  >
-    <span>用户余额不足,是否直接抵扣(完全扣除余额)，用户余额{{ memberForm.account }}元</span>
-    <template #footer>
-      <div class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="memberDeduction">
-          确认
-        </el-button>
-      </div>
-    </template>
-  </el-dialog>
 </template>
 
 <script setup>
 
 import {onMounted, onUnmounted, ref} from "vue";
 import {getClassConfigSelect} from "../../api/select.js";
-import {Order, TasksGetById, TaskUpdate} from "../../../wailsjs/go/main/App.js";
+import {
+  FileExpGetById,
+  TaskDetailBatchInsert,
+  TaskDetailGetByTask,
+  TasksGetById,
+  TaskUpdate,
+} from "../../../wailsjs/go/main/App.js";
 import {errElMessage, msgElMessage} from "../../utils/el-message-utils.js";
 
 import {useRoute} from 'vue-router';
+import {ElMessage, ElMessageBox} from "element-plus";
 
 // 传过来的数据
 let nowTaskId = ref(-1);
@@ -158,6 +149,8 @@ const dialogVisible = ref(false)
 const isDeduction = ref(false)
 const ClassConfigSelect = ref([])
 
+const taskDetailList = ref([])
+
 // 分组 select
 const newClassConfig = ref({
   ConfigName: '',
@@ -169,13 +162,16 @@ const filterTableSearch = ref([{
   id: -1
 }, {
   name: '已提交',
+  id: 1
+}, {
+  name: '未交',
   id: 0
 }, {
   name: '迟交',
-  id: 1
+  id: 2
 }, {
   name: "异常文件",
-  id: 2
+  id: 3
 }
 ])
 
@@ -191,14 +187,6 @@ const form = ref({
   memberId: '',
   realPrice: '',
   num: 1,
-})
-const goodsForm = ref({
-  id: '',
-  name: '',
-  goodsNumber: '',
-  goodsType: '',
-  price: '',
-  count: ''
 })
 const memberForm = ref({
   id: '',
@@ -237,8 +225,10 @@ onMounted(async () => {
     // console.log(nowTaskId.value)
     nowTaskId.value = useRoute().query.id
     getNowTaskMessage(useRoute().query.id)
+
   }
   ClassConfigSelect.value = await getClassConfigSelect()
+
 })
 
 // 需要接触的参数
@@ -249,9 +239,109 @@ onUnmounted(async () => {
 })
 
 
+// 预览生成
+function preLoadTaskDetail() {
+  FileExpGetById(nowTask.value.mathRegulation, nowTask.value.ConfigID).then(resp => {
+    console.log(resp.data)
+    // let tempData =
+    // 数据处理
+    let temp = resp.data
+    for (let i = 0; i < temp.length; i++) {
+      temp[i].id = null
+      temp[i].taskID = nowTask.value.id
+      if (temp[i].taskStatus === 0) {
+        temp[i]["taskStatusName"] = "未提交"
+      }
+    }
+    taskDetailList.value = temp
+
+  }).catch(err => {
+    errElMessage(err)
+  })
+
+}
+
+
+function searchTaskDetail() {
+  let tempTaskDetail = {
+    // 转成int64
+    taskID: Number(nowTask.value.id),
+    taskStatus: Number(taskDetailPage.value.status),
+    preFileName: ''
+  }
+  if (taskDetailPage.value.count !== '') {
+    tempTaskDetail.preFileName = taskDetailPage.value.count + '次'
+  }
+  if (taskDetailPage.value.month !== '') {
+    tempTaskDetail.preFileName = taskDetailPage.value.month + '月'
+  }
+  if (taskDetailPage.value.week !== '') {
+    tempTaskDetail.preFileName = taskDetailPage.value.week + '周'
+  }
+  console.log("子任务状态", tempTaskDetail)
+  TaskDetailGetByTask(tempTaskDetail).then(resp => {
+    let temp = resp.data
+    if (temp != null) {
+      for (let i = 0; i < temp.length; i++) {
+        if (temp[i].taskStatus === 0) {
+          temp[i]["taskStatusName"] = "未交"
+        } else if (temp[i].taskStatus === 1) {
+          temp[i]["taskStatusName"] = "已交"
+        } else if (temp[i].taskStatus === 2) {
+          temp[i]["taskStatusName"] = "迟交"
+        } else if (temp[i].taskStatus === 3) {
+          temp[i]["taskStatusName"] = "异常文件"
+        }
+      }
+    }
+    taskDetailList.value = temp
+  }).catch(err => {
+    errElMessage(err)
+  })
+
+
+}
+
+function batchInsert() {
+  if (taskDetailList.value.length > 0) {
+    // 让用户确定生成任务
+    ElMessageBox.confirm(
+        '是否生成子任务？',
+        '生成任务确定',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }
+    )
+        .then(() => {
+          // 数据预处理
+          let insertData = taskDetailList.value
+          //
+          TaskDetailBatchInsert(insertData).then(resp => {
+            msgElMessage(resp, "生成子任务成功")
+            searchTaskDetail()
+          }).catch(err => {
+            errElMessage(err)
+          })
+        })
+        .catch(() => {
+          ElMessage({
+            type: 'info',
+            message: '取消生成子任务',
+          })
+        })
+
+
+  } else {
+    msgElMessage("请先确定子任务数据！")
+  }
+}
+
 function getNowTaskMessage(id) {
   // 转成int64类型
   id = parseInt(id)
+
   TasksGetById(id).then(resp => {
     nowTask.value = resp.data
     if (nowTask.value.taskStatus === 0) {
@@ -267,50 +357,15 @@ function getNowTaskMessage(id) {
       nowTaskButtonTitle.value.title = "重新开始"
       nowTaskButtonTitle.value.type = "warning"
     }
+    searchTaskDetail()
   }).catch(err => {
     errElMessage(err)
   })
 }
 
 
-// 跳转页面加载参数
-
-// 下单
-function onSubmit() {
-  let request = {
-    pay: totalPrice.value,
-    memberId: memberForm.value.id,
-    orderItem: []
-  }
-  for (let i = 0; i < bills.value.length; i++) {
-    let bill = bills.value[i]
-    let order = {
-      goodsId: bill.goodsId,
-      realPrice: bill.realPrice,
-      num: bill.num
-    }
-    request.orderItem.push(order)
-  }
-  //如果购物车价格超过会员账户，提示
-  if (!dialogVisible.value && memberForm.value.id !== "" && Number(request.pay) > Number(memberForm.value.account)) {
-    dialogVisible.value = true
-  } else {
-    //下订单
-    Order(request).then(resp => {
-      msgElMessage(resp, "下单成功")
-      bills.value = []
-      totalPrice.value = 0
-      isDeduction.value = false
-    }).catch(err => {
-      errElMessage(err)
-    })
-  }
-}
-
 // 确定格式
 function taskSubmitInsure() {
-  console.log("确定格式")
-  console.log(nowTask.value)
   // 检查文件格式和分组是否选择
   if (nowTask.value.mathRegulation === '' || nowTask.value.configId === '') {
     msgElMessage("文件格式和分组不能为空")
@@ -327,32 +382,7 @@ function taskSubmitInsure() {
 
 }
 
-//计算实际支付
-function calcRealPrice() {
-  if (goodsForm.value.id !== "") {
-    if (memberForm.value.id !== "" && memberForm.value.id !== '0') {
-      form.value.realPrice = (Number(goodsForm.value.price) * Number(memberForm.value.discount)).toFixed(2)
-    } else {
-      form.value.realPrice = Number(goodsForm.value.price).toFixed(2)
-    }
-  }
-}
 
-//计算总价
-function calcTotalPrice() {
-  totalPrice.value = '0'
-  for (let i = 0; i < bills.value.length; i++) {
-    let bill = bills.value[i]
-    totalPrice.value = (Number(totalPrice.value) + Number(bill.realPrice) * bill.num).toFixed(2)
-  }
-}
-
-//会员抵扣对话框确认
-function memberDeduction() {
-  isDeduction.value = true
-  onSubmit()
-  dialogVisible.value = false
-}
 </script>
 
 

@@ -40,6 +40,11 @@ func (p *UserManager) Update(req vo.UserVo) {
 	userService.Update(req)
 }
 
+// SelectGroup 查询所有组
+func (p *UserManager) SelectGroup(user vo.UserVo) []vo.UserVo {
+	return userService.SelectByGroup(user)
+}
+
 // BatchInsert 批量插入
 func (p *UserManager) BatchInsert(req []vo.UserVo) {
 	for _, e := range req {

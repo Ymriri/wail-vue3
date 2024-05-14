@@ -28,6 +28,9 @@ var taskDetailController = controller.GetTaskDetailControllerInstance()
 // excel 读取
 var excelUtil = impl.GetLoadFileService()
 
+// 生成子任务
+var fileExpService = impl.GetFileExpressionServiceInstance()
+
 // App struct
 type App struct {
 	ctx context.Context
@@ -84,6 +87,11 @@ func (a *App) UserUpdate(req vo.UserVo) api.RespData[types.Nil] {
 	return userController.Update(req)
 }
 
+// UserSelectGroup 查询同一个分组的所有用户
+func (a *App) UserSelectGroup(user vo.UserVo) api.RespData[[]vo.UserVo] {
+	return userController.SelectGroup(user)
+}
+
 // UserBatchInsert 用户批量插入
 func (a *App) UserBatchInsert(req []vo.UserVo) api.RespData[types.Nil] {
 	return userController.BatchInsert(req)
@@ -129,12 +137,15 @@ func (a *App) TaskDetailSave(param vo.TaskDetailVO) api.RespData[types.Nil] {
 	return taskDetailController.Save(param)
 }
 
+// 批量保存
+//func (a *App)
+
 // TaskDetailDelete 删除任务
 func (a *App) TaskDetailDelete(id uint) api.RespData[types.Nil] {
 	return taskDetailController.Delete(id)
 }
 
-// TaskDetailBatchInsert 批量删除
+// TaskDetailBatchInsert 批量插入
 func (a *App) TaskDetailBatchInsert(param []vo.TaskDetailVO) api.RespData[types.Nil] {
 	return taskDetailController.BatchInsert(param)
 }
@@ -147,6 +158,10 @@ func (a *App) TaskDetailDeleteByTaskId(id uint64) api.RespData[types.Nil] {
 // TaskDetailUpdate 更新任务
 func (a *App) TaskDetailUpdate(param vo.TaskDetailVO) api.RespData[types.Nil] {
 	return taskDetailController.Update(param)
+}
+
+func (a *App) FileExpGetById(fileExp string, id int) api.RespData[[]vo.TaskDetailVO] {
+	return api.Success(fileExpService.ReadFileExpression(fileExp, id), "生成子任务成功！")
 }
 
 /**----------------------------------------------------------------------------------------**/

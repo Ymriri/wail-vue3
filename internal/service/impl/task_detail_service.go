@@ -22,6 +22,7 @@ func GetTaskDetailServiceInstance() *TaskDetailService {
 
 // GetTaskDetailByTaskId 查询任务下所有的子任务
 func (t *TaskDetailService) GetTaskDetailByTaskId(param vo.TaskDetailVO) []vo.TaskDetailVO {
+
 	taskDetailList := taskDetailsRepository.GetTaskDetailByTaskID(&param)
 	var taskDetailVoList []vo.TaskDetailVO
 	for _, e := range taskDetailList {

@@ -115,3 +115,10 @@ func (u *UserRepository) DeleteById(id uint) {
 func (u *UserRepository) DeleteByConfigId(configId uint) {
 	global.DB.Where("config_file_id = ?", configId).Delete(&entity.User{})
 }
+
+// All 根据ID查询所有
+func (u *UserRepository) All(id int) []entity.User {
+	var userList []entity.User
+	global.DB.Where("config_file_id = ?", id).Find(&userList)
+	return userList
+}

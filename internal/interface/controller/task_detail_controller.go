@@ -5,6 +5,7 @@
 package controller
 
 import (
+	"fmt"
 	"go/types"
 	"goods-system/internal/application/appmanager"
 	"goods-system/internal/application/vo"
@@ -22,6 +23,7 @@ func GetTaskDetailControllerInstance() *TaskDetailController {
 
 // GetTaskDetailByTask 查询任务下所有的子任务
 func (t *TaskDetailController) GetTaskDetailByTask(param vo.TaskDetailVO) api.RespData[[]vo.TaskDetailVO] {
+	fmt.Println(param)
 	return api.Success[[]vo.TaskDetailVO](taskDetailManager.GetTaskDetailByTask(param), "查询成功！")
 }
 

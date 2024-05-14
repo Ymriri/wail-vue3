@@ -5,9 +5,11 @@
 package repositories
 
 import (
+	"fmt"
 	"goods-system/internal/application/vo"
 	"goods-system/internal/infrastructure/common/convert"
 	"goods-system/internal/infrastructure/common/global"
+	"goods-system/internal/infrastructure/common/utils"
 	"goods-system/internal/infrastructure/db/entity"
 	"time"
 )
@@ -22,22 +24,23 @@ func GetTaskDetailRepository() *TaskDetailRepository {
 
 // GetTaskDetailByTaskID 根据任务ID查询任务详情
 func (t *TaskDetailRepository) GetTaskDetailByTaskID(queryTask *vo.TaskDetailVO) []entity.TaskDetail {
-
-	task := taskInstance.SelectById(queryTask.TaskID)
+	fmt.Println(queryTask.TaskStatus)
+	fmt.Println(queryTask.PreFileName)
+	task := taskInstance.SelectById(utils.ToUInt64(queryTask.TaskID))
 	var taskDetails []entity.TaskDetail
-	tx := global.DB.Model(&entity.TaskDetail{})
+	tx := global.DB.Model(&entity.TaskDetail{}).Debug()
 	// 根据任务状态查询
 	if queryTask.TaskStatus != -1 {
-		tx.Where("task_status = ?", queryTask.TaskStatus)
+		tx = tx.Where("task_status = ?", queryTask.TaskStatus)
 	}
 	// 根据任务名称过滤，支持多个任务名称
 	if queryTask.PreFileName != "" {
-		//  TODO PreFile根据_分割
-		tx.Where("pre_file_name like ?", "%"+queryTask.FileName+"%")
+		tx = tx.Where("pre_file_name like ?", "%"+queryTask.PreFileName+"%")
 	}
-	tx.Where("task_id = ?", task.ID)
+	tx = tx.Where("task_id = ?", task.ID)
 	// 预加载User信息
 	tx.Preload("User").Find(&taskDetails)
+
 	return taskDetails
 }
 
@@ -95,6 +98,7 @@ func (t *TaskDetailRepository) InsertOne(taskDetail vo.TaskDetailVO) {
 func (t *TaskDetailRepository) InsertBatch(taskDetails []vo.TaskDetailVO) {
 	taskDetailEntities := make([]entity.TaskDetail, 0)
 	for _, taskDetail := range taskDetails {
+		// 插入的时候忽略ID
 		taskDetailEntity := convert.ToTaskDetailByVo(taskDetail)
 		taskDetailEntity.CreatedAt = time.Now()
 		taskDetailEntity.UpdatedAt = time.Now()

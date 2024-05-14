@@ -22,6 +22,10 @@ export function ConfigUpdate(arg1) {
   return window['go']['main']['App']['ConfigUpdate'](arg1);
 }
 
+export function FileExpGetById(arg1, arg2) {
+  return window['go']['main']['App']['FileExpGetById'](arg1, arg2);
+}
+
 export function GoodsAll() {
   return window['go']['main']['App']['GoodsAll']();
 }
@@ -200,6 +204,10 @@ export function UserPage(arg1) {
 
 export function UserSave(arg1) {
   return window['go']['main']['App']['UserSave'](arg1);
+}
+
+export function UserSelectGroup(arg1) {
+  return window['go']['main']['App']['UserSelectGroup'](arg1);
 }
 
 export function UserUpdate(arg1) {

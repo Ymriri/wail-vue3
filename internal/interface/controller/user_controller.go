@@ -45,6 +45,12 @@ func (u *UserController) Update(req vo.UserVo) api.RespData[types.Nil] {
 	return api.Success(types.Nil{}, "")
 }
 
+// SelectGroup 查询所有组
+func (u *UserController) SelectGroup(user vo.UserVo) api.RespData[[]vo.UserVo] {
+	return api.Success(userManager.SelectGroup(user), "")
+
+}
+
 // 批量插入
 func (u *UserController) BatchInsert(req []vo.UserVo) api.RespData[types.Nil] {
 	userManager.BatchInsert(req)
