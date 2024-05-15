@@ -2,20 +2,30 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/logger"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	"os"
+	"path/filepath"
 )
 
 //go:embed all:frontend/dist
 var assets embed.FS
 
 func main() {
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		fmt.Println("get exe dir error!")
+	}
+	fmt.Println("workDir: " + dir)
+	// 更改工作目录到程序的路径
+	os.Chdir(dir)
 	app := NewApp()
 	// 加载配置文件
 	app.LoadConfigInit()
-	err := wails.Run(&options.App{
+	err = wails.Run(&options.App{
 		Title:  "FtpScanner(87)",
 		Width:  1524,
 		Height: 768,

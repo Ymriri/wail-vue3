@@ -1,10 +1,13 @@
 package source
 
 import (
+	"fmt"
 	"goods-system/internal/infrastructure/db/entity"
 	"gorm.io/driver/sqlite" //驱动库
 	"gorm.io/gorm"
 	"log"
+	"os"
+	"path/filepath"
 	"sync"
 )
 
@@ -18,7 +21,7 @@ func Db() *gorm.DB {
 	} else {
 		once.Do(func() {
 			var err error
-			db, err = gorm.Open(sqlite.Open("ftpScanner.db"))
+			db, err = gorm.Open(sqlite.Open(getDir() + "/ftpScanner.db"))
 
 			if err != nil {
 				log.Fatal("数据库连接失败", err.Error())
@@ -45,4 +48,12 @@ func Db() *gorm.DB {
 		})
 	}
 	return db
+}
+
+func getDir() string {
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		fmt.Println("get exe dir error!")
+	}
+	return dir
 }

@@ -53,27 +53,6 @@
       :total="pageTotal"
       @current-change="handleCurrentChange"
   />
-  <!-- 会员编辑对话框 -->
-  <el-dialog
-      v-model="memberEditDialogVisible"
-      title="会员编辑"
-      :before-close="memberEditDialogClose"
-  >
-    <member-edit-dialog
-        :member-v-o="memberVO"
-        @close="closeEditDialog"
-    />
-  </el-dialog>
-  <!-- 会员删除对话框 -->
-  <el-dialog
-      v-model="memberDeleteDialogVisible"
-      title="删除会员"
-  >
-    <member-delete-dialog
-        :member-v-o="memberVO"
-        @close="closeDeleteDialog"
-    />
-  </el-dialog>
 
   <!--管理分组-->
   <el-dialog v-model="classConfigVisible" title="管理分组" width="500">
@@ -221,6 +200,7 @@ function searchPageUser() {
   userPageRequest.value.configFileID = parseInt(userPageRequest.value.configFileID)
   UserPage(userPageRequest.value).then(resp => {
     userPageVO.value = resp.data.data
+    pageTotal.value = resp.data.total
     console.log(userPageVO.value)
   })
 
@@ -403,14 +383,8 @@ function openClassConfigDialog() {
 
 // 添加分页切换事件处理函数（假设你已经实现了分页逻辑）
 function handleCurrentChange(pageNumber) {
-  memberPageRequest.value.page = pageNumber
-  searchPageMember()
-}
-
-//删除编辑对话框
-function closeEditDialog() {
-  memberEditDialogVisible.value = false
-  searchPageMember()
+  userPageRequest.value.page = pageNumber
+  searchPageUser()
 }
 
 //打开删除对话框
@@ -418,12 +392,6 @@ function openDeleteDialog(row) {
   memberDeleteDialogVisible.value = true
 
   memberVO.value = row
-}
-
-//删除对话框
-function closeDeleteDialog() {
-  memberDeleteDialogVisible.value = false
-  searchPageMember()
 }
 
 //关闭会员编辑对话框

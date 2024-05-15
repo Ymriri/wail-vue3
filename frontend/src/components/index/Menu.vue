@@ -44,12 +44,12 @@ function menuClick(index) {
       <span>用户管理</span>
     </el-menu-item>
 
-    <el-menu-item index="/system">
-      <el-icon>
-        <Refrigerator/>
-      </el-icon>
-      <span>系统管理</span>
-    </el-menu-item>
+<!--    <el-menu-item index="/system">-->
+<!--      <el-icon>-->
+<!--        <Refrigerator/>-->
+<!--      </el-icon>-->
+<!--      <span>系统管理</span>-->
+<!--    </el-menu-item>-->
   </el-menu>
 </template>
 

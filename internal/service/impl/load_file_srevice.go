@@ -42,7 +42,7 @@ func (utils *LoadFileService) ReadUserExcel(filePath string) []vo.UserVo {
 	// 循环获得sheet
 	for _, sheetName := range f.GetSheetMap() {
 		fmt.Println(sheetName)
-		rows, err := f.GetRows("科组10")
+		rows, err := f.GetRows(sheetName)
 		if err != nil {
 			fmt.Println(err)
 		}
