@@ -27,7 +27,7 @@ func Db() *gorm.DB {
 			err = db.AutoMigrate(&entity.Goods{})
 			err = db.AutoMigrate(&entity.GoodsType{})
 			err = db.AutoMigrate(&entity.Member{})
-			err = db.AutoMigrate(&entity.MemberLevel{})
+			//err = db.AutoMigrate(&entity.MemberLevel{})
 			err = db.AutoMigrate(&entity.TopUp{})
 			err = db.AutoMigrate(&entity.Order{})
 			err = db.AutoMigrate(&entity.OrderItem{})

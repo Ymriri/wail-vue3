@@ -22,7 +22,7 @@
     </el-form-item>
   </el-form>
   <el-table :data="tablePageVOList" stripe style="width: 100%" @row-click="showDetails">
-<!--     当行点击触发-->
+    <!--     当行点击触发-->
 
     <el-table-column prop="id" label="ID"/>
     <el-table-column prop="taskName" label="任务名称"/>
@@ -34,8 +34,8 @@
     <el-table-column prop="taskStatus" label="任务状态"/>
     <el-table-column label="操作">
       <template #default="scope">
-        <el-button type="primary" :icon="Edit" circle @click="editTask(scope.row)"/>
-        <el-button type="danger" :icon="Delete" circle @click="deleteGoods(scope.row.id)"/>
+        <el-button type="primary" :icon="Edit" circle @click.stop="editTask(scope.row)"/>
+        <el-button type="danger" :icon="Delete" circle @click.stop="deleteGoods(scope.row.id)"/>
       </template>
     </el-table-column>
   </el-table>
@@ -98,7 +98,7 @@ const noAccept = ref(true)
 //表格请求
 const tasksPageRequest = ref({
   taskName: '',
-  tasksStatus: 0,
+  tasksStatus: -1,
   page: 1,
   size: 10
 })

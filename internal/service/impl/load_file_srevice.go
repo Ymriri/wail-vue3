@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/xuri/excelize/v2"
 	"goods-system/internal/application/vo"
+	"os"
 )
 
 var loadFileService = &LoadFileService{}
@@ -18,7 +19,7 @@ func GetLoadFileService() *LoadFileService {
 	return loadFileService
 }
 
-// 读取ReadUserExcel 文件
+// ReadUserExcel 读取ReadUserExcel 文件
 func (utils *LoadFileService) ReadUserExcel(filePath string) []vo.UserVo {
 	// 读取文件
 	// 加载excel
@@ -31,7 +32,6 @@ func (utils *LoadFileService) ReadUserExcel(filePath string) []vo.UserVo {
 		return retData
 	}
 
-	// 定义返回数据
 	defer func() {
 		// Close the spreadsheet.
 		if err := f.Close(); err != nil {
@@ -105,4 +105,63 @@ func (utils *LoadFileService) ReadUserExcel(filePath string) []vo.UserVo {
 	}
 	return retData
 
+}
+
+// WriteUserExcel 写入excel
+func (utils *LoadFileService) WriteUserExcel(data []vo.TaskDetailVO, task vo.TasksVo) (string, error) {
+	f := excelize.NewFile()
+	defer func() {
+		if err := f.Close(); err != nil {
+			fmt.Println(err)
+		}
+	}()
+	// 如果表头不为空则使用表头
+	sheetName := "Sheet1"
+	//if len(data) > 0 && task.TaskName != "" {
+	//	// 写入表头
+	//	sheetName = task.TaskName
+	//}
+
+	allWriteData := [][]interface{}{}
+	allWriteData = append(allWriteData, []interface{}{"序号", "姓名", "工号", "年级", "班级", "科组", "预文件名", "上传到文件名", "状态"})
+	// 循环遍历data
+	for idx, item := range data {
+		// 从第二行开始写入
+		row := []interface{}{idx + 1, item.User.Name, item.User.EmployeeNumber, item.User.Grade, item.User.Grade, item.User.Department, item.PreFileName, item.FileName, getStatus(item.TaskStatus)}
+		allWriteData = append(allWriteData, row)
+	}
+	for idx, row := range allWriteData {
+		cell, err := excelize.CoordinatesToCellName(1, idx+1)
+		if err != nil {
+			fmt.Println(err)
+			return "", err
+		}
+		// 如果不存在sheet则创建sheet
+		err = f.SetSheetRow(sheetName, cell, &row)
+		if err != nil {
+			return "", err
+		}
+	}
+	// 先判断文件是否存在，存在则删除
+	err := os.Remove(task.TaskName + ".xlsx")
+	if err != nil {
+		fmt.Println(err)
+		// 文件不存在，不管它
+	}
+	// 自动保存到本地
+	if err := f.SaveAs(task.TaskName + ".xlsx"); err != nil {
+		fmt.Println(err)
+	}
+
+	return task.TaskName + ".xlsx", nil
+}
+
+func getStatus(num int) string {
+	if num == 1 {
+		return "已提交"
+	}
+	if num == 2 {
+		return "未提交"
+	}
+	return "未提交"
 }

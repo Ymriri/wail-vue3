@@ -26,6 +26,10 @@ export function FileExpGetById(arg1, arg2) {
   return window['go']['main']['App']['FileExpGetById'](arg1, arg2);
 }
 
+export function FtpScanFile(arg1) {
+  return window['go']['main']['App']['FtpScanFile'](arg1);
+}
+
 export function GoodsAll() {
   return window['go']['main']['App']['GoodsAll']();
 }
@@ -68,6 +72,10 @@ export function GoodsTypeUpdate(arg1) {
 
 export function ImportBackup(arg1) {
   return window['go']['main']['App']['ImportBackup'](arg1);
+}
+
+export function LoadConfigInit() {
+  return window['go']['main']['App']['LoadConfigInit']();
 }
 
 export function MemberAll() {
@@ -128,6 +136,14 @@ export function OrderRecords(arg1) {
 
 export function OrderStatistics(arg1) {
   return window['go']['main']['App']['OrderStatistics'](arg1);
+}
+
+export function SaveToExcel(arg1) {
+  return window['go']['main']['App']['SaveToExcel'](arg1);
+}
+
+export function ScannerFileSys(arg1) {
+  return window['go']['main']['App']['ScannerFileSys'](arg1);
 }
 
 export function SelectFile(arg1) {

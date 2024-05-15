@@ -30,6 +30,7 @@ var excelUtil = impl.GetLoadFileService()
 
 // 生成子任务
 var fileExpService = impl.GetFileExpressionServiceInstance()
+var ftpScannerService = impl.GetFtpScannerServiceInstance()
 
 // App struct
 type App struct {
@@ -47,6 +48,14 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
+func (a *App) LoadConfigInit() {
+	ftpScannerService.LoadConfigInit()
+
+}
+
+func GetApp() *App {
+	return &App{}
+}
 func (a *App) TasksGetById(id uint64) api.RespData[vo.TasksVo] {
 	return taskController.TaskGetById(id)
 }
@@ -162,6 +171,17 @@ func (a *App) TaskDetailUpdate(param vo.TaskDetailVO) api.RespData[types.Nil] {
 
 func (a *App) FileExpGetById(fileExp string, id int) api.RespData[[]vo.TaskDetailVO] {
 	return api.Success(fileExpService.ReadFileExpression(fileExp, id), "生成子任务成功！")
+}
+
+// ScannerFileSys scanner file
+func (a *App) ScannerFileSys(param request.TasksUpdateRequest) api.RespData[types.Nil] {
+	return taskDetailController.ScannerFileSys(param)
+
+}
+
+// SaveToExcel save to Excel
+func (a *App) SaveToExcel(detailVO vo.TaskDetailVO) api.RespData[types.Nil] {
+	return taskDetailController.SaveToExcel(detailVO)
 }
 
 /**----------------------------------------------------------------------------------------**/
@@ -314,6 +334,10 @@ func (a *App) ImportBackup(base64File string) api.RespData[any] {
 	return api.Success[any](types.Nil{}, "")
 }
 
+func (a *App) FtpScanFile(filePath string) {
+	impl.GetFtpScannerServiceInstance().ScanFtpFile("/")
+}
+
 // SelectFile 选择文件
 func (a *App) SelectFile(filetype string) []vo.UserVo {
 	if filetype == "" {
@@ -328,8 +352,6 @@ func (a *App) SelectFile(filetype string) []vo.UserVo {
 			},
 		},
 	})
-	// 文件路径名
-	fmt.Println(selection)
 	if err != nil {
 		_ = fmt.Sprintf("err %s!", err)
 	}

@@ -16,6 +16,8 @@ export function ConfigUpdate(arg1:vo.ConfigTreeVo):Promise<api.RespData[go/types
 
 export function FileExpGetById(arg1:string,arg2:number):Promise<api.RespData[[]goods-system/internal/application/vo>;
 
+export function FtpScanFile(arg1:string):Promise<void>;
+
 export function GoodsAll():Promise<api.RespData[[]goods-system/internal/application/vo>;
 
 export function GoodsDelete(arg1:string):Promise<api.RespData[go/types>;
@@ -37,6 +39,8 @@ export function GoodsTypeSelectAll():Promise<api.RespData[[]goods-system/interna
 export function GoodsTypeUpdate(arg1:request.GoodsTypeEditRequest):Promise<api.RespData[go/types>;
 
 export function ImportBackup(arg1:string):Promise<api.RespData[interface {}]>;
+
+export function LoadConfigInit():Promise<void>;
 
 export function MemberAll():Promise<api.RespData[[]goods-system/internal/application/vo>;
 
@@ -67,6 +71,10 @@ export function OrderPage(arg1:request.OrderPageRequest):Promise<api.RespData[go
 export function OrderRecords(arg1:request.OrderRecordRequest):Promise<api.RespData[[]goods-system/internal/application/vo>;
 
 export function OrderStatistics(arg1:request.OrderRecordRequest):Promise<api.RespData[goods-system/internal/application/vo>;
+
+export function SaveToExcel(arg1:vo.TaskDetailVO):Promise<api.RespData[go/types>;
+
+export function ScannerFileSys(arg1:request.TasksUpdateRequest):Promise<api.RespData[go/types>;
 
 export function SelectFile(arg1:string):Promise<Array<vo.UserVo>>;
 

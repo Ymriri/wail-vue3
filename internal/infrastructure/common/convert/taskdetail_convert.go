@@ -21,6 +21,13 @@ func ToTaskDetailByVo(param vo.TaskDetailVO) entity.TaskDetail {
 		UserId:      param.UserId,
 	}
 }
+func ToTaskDetailByVoNoID(param vo.TaskDetailVO) entity.TaskDetail {
+	return entity.TaskDetail{
+		TaskID:     utils.ToUInt64(param.TaskID),
+		TaskStatus: param.TaskStatus,
+		FileName:   param.FileName,
+	}
+}
 
 // ToTaskDetailVoByDetail 实体转vo 分组名称需要自己补充上去
 func ToTaskDetailVoByDetail(param entity.TaskDetail) vo.TaskDetailVO {

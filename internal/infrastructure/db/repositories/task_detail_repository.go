@@ -24,11 +24,9 @@ func GetTaskDetailRepository() *TaskDetailRepository {
 
 // GetTaskDetailByTaskID 根据任务ID查询任务详情
 func (t *TaskDetailRepository) GetTaskDetailByTaskID(queryTask *vo.TaskDetailVO) []entity.TaskDetail {
-	fmt.Println(queryTask.TaskStatus)
-	fmt.Println(queryTask.PreFileName)
 	task := taskInstance.SelectById(utils.ToUInt64(queryTask.TaskID))
 	var taskDetails []entity.TaskDetail
-	tx := global.DB.Model(&entity.TaskDetail{}).Debug()
+	tx := global.DB.Model(&entity.TaskDetail{})
 	// 根据任务状态查询
 	if queryTask.TaskStatus != -1 {
 		tx = tx.Where("task_status = ?", queryTask.TaskStatus)
@@ -40,7 +38,11 @@ func (t *TaskDetailRepository) GetTaskDetailByTaskID(queryTask *vo.TaskDetailVO)
 	tx = tx.Where("task_id = ?", task.ID)
 	// 预加载User信息
 	tx.Preload("User").Find(&taskDetails)
+	// for 输出
+	for _, taskDetail := range taskDetails {
+		fmt.Printf("%s %d ", taskDetail.PreFileName, taskDetail.TaskStatus)
 
+	}
 	return taskDetails
 }
 
@@ -51,6 +53,15 @@ func (t *TaskDetailRepository) SelectById(id uint) entity.TaskDetail {
 	tx.Where("id = ?", id)
 	// Preload("Task") 后续如果需要补充再补
 	tx.Preload("User").Find(&taskDetail)
+	return taskDetail
+}
+
+// SelectByTaskIdAndFileName 通过任务ID和文件名查询
+func (t *TaskDetailRepository) SelectByTaskIdAndFileName(taskId uint64, fileName string) entity.TaskDetail {
+	var taskDetail entity.TaskDetail
+	tx := global.DB.Model(&entity.TaskDetail{})
+	tx.Where("task_id = ?", taskId).Where("file_name = ?", fileName)
+	tx.Find(&taskDetail)
 	return taskDetail
 }
 
@@ -69,9 +80,13 @@ func (t *TaskDetailRepository) UpdateByTaskDetail(taskDetail vo.TaskDetailVO) {
 		updates["pre_file_name"] = tempTaskDetail.PreFileName
 		flag = true
 	}
+	if taskDetail.FileName != "" {
+		updates["file_name"] = tempTaskDetail.FileName
+		flag = true
+	}
 	if flag {
 		tempTaskDetail.UpdatedAt = time.Now()
-		global.DB.Model(&entity.User{}).Where("id = ?", tempTaskDetail.ID).Updates(updates)
+		global.DB.Model(&entity.TaskDetail{}).Where("id = ?", tempTaskDetail.ID).Updates(updates)
 	}
 }
 
@@ -88,10 +103,10 @@ func (t *TaskDetailRepository) DeleteByTaskId(id uint64) {
 
 // InsertOne 插入数据
 func (t *TaskDetailRepository) InsertOne(taskDetail vo.TaskDetailVO) {
-	taskDetailEntity := convert.ToTaskDetailByVo(taskDetail)
+	taskDetailEntity := convert.ToTaskDetailByVoNoID(taskDetail)
 	taskDetailEntity.CreatedAt = time.Now()
 	taskDetailEntity.UpdatedAt = time.Now()
-	global.DB.Create(taskDetailEntity)
+	global.DB.Create(&taskDetailEntity)
 }
 
 // InsertBatch 批量插入

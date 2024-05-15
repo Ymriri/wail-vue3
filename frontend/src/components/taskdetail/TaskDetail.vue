@@ -56,7 +56,8 @@
           <el-form-item label="任务状态：" label-width="110px">
             <el-input v-model="nowTask.taskLable" disabled/>
           </el-form-item>
-          <el-button :type="nowTaskButtonTitle.type" style="margin-left: 7%">{{ nowTaskButtonTitle.title }}
+          <el-button :type="nowTaskButtonTitle.type" style="margin-left: 7%" @click="scanerCheck">
+            {{ nowTaskButtonTitle.title }}
           </el-button>
         </div>
         <el-divider/>
@@ -94,7 +95,7 @@
                 <el-text style="margin-left: 2%">周</el-text>
               </div>
               <el-button type="primary" style="margin-left: 7.8%" @click="searchTaskDetail">查询任务</el-button>
-              <el-button type="warning" style="margin-left: 7.2%">导出文件</el-button>
+              <el-button type="warning" style="margin-left: 7.2%" @click="saveExcel">导出文件</el-button>
             </div>
           </div>
 
@@ -110,7 +111,12 @@
             <el-table-column prop="configName" label="科组"/>
             <el-table-column prop="preFileName" label="格式对比"/>
             <el-table-column prop="fileName" label="文件名"/>
-            <el-table-column prop="taskStatusName" label="状态"/>
+            <el-table-column prop="taskStatusName">
+              <!--              标签-->
+              <template #default="{row}">
+                <el-tag :type="row.type" effect="dark">{{ row.taskStatusName }}</el-tag>
+              </template>
+            </el-table-column>
           </el-table>
         </div>
       </el-card>
@@ -125,6 +131,8 @@ import {onMounted, onUnmounted, ref} from "vue";
 import {getClassConfigSelect} from "../../api/select.js";
 import {
   FileExpGetById,
+  SaveToExcel,
+  ScannerFileSys,
   TaskDetailBatchInsert,
   TaskDetailGetByTask,
   TasksGetById,
@@ -165,9 +173,6 @@ const filterTableSearch = ref([{
   id: 1
 }, {
   name: '未交',
-  id: 0
-}, {
-  name: '迟交',
   id: 2
 }, {
   name: "异常文件",
@@ -261,12 +266,78 @@ function preLoadTaskDetail() {
 
 }
 
+function saveExcel() {
+  console.log("导出文件")
+  // 提醒是否确定导出
+  ElMessageBox.confirm(
+      '是否导出表格到本地？',
+      '导出文件确定',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(() => {
+        // 导出文件
+        let tempTaskDetail = {
+          // 转成int64
+          taskID: Number(nowTask.value.id),
+          taskStatus: Number(taskDetailPage.value.status),
+          preFileName: ''
+        }
+        if (taskDetailPage.value.count !== '') {
+          tempTaskDetail.preFileName = taskDetailPage.value.count + '次'
+        }
+        if (taskDetailPage.value.month !== '') {
+          tempTaskDetail.preFileName = taskDetailPage.value.month + '月'
+        }
+        if (taskDetailPage.value.week !== '') {
+          tempTaskDetail.preFileName = taskDetailPage.value.week + '周'
+        }
+        SaveToExcel(tempTaskDetail).then(resp => {
+          console.log(resp)
+          if (resp.code === 200) {
+            ElMessage.success(resp.message)
+          } else {
+            ElMessage.error(resp.message)
+          }
+
+
+        }).catch(err => {
+          errElMessage(err)
+        })
+      })
+      .catch(() => {
+        ElMessage({
+          type: 'info',
+          message: '取消导出文件',
+        })
+      })
+
+
+}
+
+// 开始扫描
+function scanerCheck() {
+
+  console.log(nowTask.value)
+
+  ScannerFileSys(nowTask.value).then(resp => {
+    msgElMessage(resp, "扫描完成")
+    getNowTaskMessage(nowTask.value.id)
+    // 重新加载子任务
+    searchTaskDetail()
+  }).catch(err => {
+    errElMessage(err)
+  })
+}
 
 function searchTaskDetail() {
   let tempTaskDetail = {
     // 转成int64
     taskID: Number(nowTask.value.id),
-    taskStatus: Number(taskDetailPage.value.status),
+    taskStatus: Number(taskDetailPage.value.status===''?-1:taskDetailPage.value.status),
     preFileName: ''
   }
   if (taskDetailPage.value.count !== '') {
@@ -278,19 +349,23 @@ function searchTaskDetail() {
   if (taskDetailPage.value.week !== '') {
     tempTaskDetail.preFileName = taskDetailPage.value.week + '周'
   }
-  console.log("子任务状态", tempTaskDetail)
   TaskDetailGetByTask(tempTaskDetail).then(resp => {
     let temp = resp.data
+    console.log(temp)
     if (temp != null) {
       for (let i = 0; i < temp.length; i++) {
         if (temp[i].taskStatus === 0) {
           temp[i]["taskStatusName"] = "未交"
+          temp[i]['type'] = "warning"
         } else if (temp[i].taskStatus === 1) {
           temp[i]["taskStatusName"] = "已交"
+          temp[i]['type'] = "success"
         } else if (temp[i].taskStatus === 2) {
-          temp[i]["taskStatusName"] = "迟交"
+          temp[i]["taskStatusName"] = "未交"
+          temp[i]['type'] = "warning"
         } else if (temp[i].taskStatus === 3) {
           temp[i]["taskStatusName"] = "异常文件"
+          temp[i]['type'] = "danger"
         }
       }
     }
