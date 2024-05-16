@@ -279,11 +279,12 @@ function saveExcel() {
       }
   )
       .then(() => {
+
         // 导出文件
         let tempTaskDetail = {
           // 转成int64
           taskID: Number(nowTask.value.id),
-          taskStatus: Number(taskDetailPage.value.status),
+          taskStatus: Number(taskDetailPage.value.status===''?-1:taskDetailPage.value.status),
           preFileName: ''
         }
         if (taskDetailPage.value.count !== '') {
@@ -296,7 +297,7 @@ function saveExcel() {
           tempTaskDetail.preFileName = taskDetailPage.value.week + '周'
         }
         SaveToExcel(tempTaskDetail).then(resp => {
-          console.log(resp)
+          // console.log(resp)
           if (resp.code === 200) {
             ElMessage.success(resp.message)
           } else {

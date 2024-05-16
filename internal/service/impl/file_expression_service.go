@@ -81,7 +81,10 @@ func processString(s string, userVo vo.UserVo) []string {
 			// 开始匹配 单独的数字开头
 			// 匹配数字
 			if i+1 < len(ss) && ss[i+1] >= '0' && ss[i+1] <= '9' {
+				// 字符串转数字
+
 				addTempString := extractUserProperty(int(ss[i+1]-'0'), userVo)
+				fmt.Println("内容：", int(ss[i+1]-'0'))
 				retString = addString(retString, addTempString)
 				// 跳到}
 				for j := i + 2; j < len(ss); j++ {
@@ -100,20 +103,10 @@ func processString(s string, userVo vo.UserVo) []string {
 				right := 0
 				// 根据-进行分割
 
-				//if i+2 < len(ss) && ss[i+2] != '}' {
-				//	//
-				//	left = int(ss[i+2] - '0')
-				//	right = left
-				//	if i+3 < len(ss) && ss[i+3] != '}' {
-				//		right = int(ss[i+3] - '0')
-				//	}
-				//}
-
 				for j := i + 2; j < len(ss) && ss[j] != '-' && ss[j] != '}'; j++ {
 					left = left*10 + int(ss[j]-'0')
 					i = j
 				}
-				fmt.Println(left)
 				right = left
 				if ss[i+1] == '-' {
 					right = 0
@@ -122,7 +115,6 @@ func processString(s string, userVo vo.UserVo) []string {
 						i = j
 					}
 				}
-				fmt.Println(right)
 				retString = copyAddString(retString, left, right)
 				// 跳到}
 				for j := i + 1; j < len(ss); j++ {
@@ -165,7 +157,7 @@ func copyAddString(s []string, begin int, end int) []string {
 }
 
 func extractUserProperty(num int, userVo vo.UserVo) string {
-	// Parse index
+
 	switch num {
 	case 1:
 		return userVo.Name
@@ -174,7 +166,7 @@ func extractUserProperty(num int, userVo vo.UserVo) string {
 	case 3:
 		return userVo.Class
 	case 4:
-		return userVo.Group
+		return userVo.Grade
 	case 5:
 		return userVo.Department
 	case 6:

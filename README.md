@@ -20,3 +20,4 @@
     本地使用需要sqlite，程序打开时自动创建表,同步备份根据主键id判断时创建还是更新
     wails build -nsis  // 免安装版本
     wails build --platform windows/amd64 -nsis
+    wails build --platform windows/amd64  -webview2 Embed

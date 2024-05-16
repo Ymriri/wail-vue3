@@ -41,10 +41,10 @@
     <el-table-column prop="configName" label="科组"/>
     <el-table-column prop="configFileId" label="ConfigID"/>
     <el-table-column label="操作">
-      <template #default="scope">
-        <el-button type="primary" :icon="Edit" circle @click="openEditDialog(scope.row)"/>
-        <el-button type="danger" :icon="Delete" circle @click="openDeleteDialog(scope.row)"/>
-      </template>
+<!--      <template #default="scope">-->
+<!--        <el-button type="primary" :icon="Edit" circle @click="openEditDialog(scope.row)"/>-->
+<!--        <el-button type="danger" :icon="Delete" circle @click="openDeleteDialog(scope.row)"/>-->
+<!--      </template>-->
     </el-table-column>
   </el-table>
   <!-- 如果需要根据的实际长度来控制分页组件 -->

@@ -2,8 +2,8 @@ package source
 
 import (
 	"fmt"
+	"github.com/glebarez/sqlite"
 	"goods-system/internal/infrastructure/db/entity"
-	"gorm.io/driver/sqlite" //驱动库
 	"gorm.io/gorm"
 	"log"
 	"os"

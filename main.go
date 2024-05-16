@@ -7,7 +7,9 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/logger"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	"github.com/wailsapp/wails/v2/pkg/options/windows"
 	"os"
+	//"github.com/wailsapp/wails/v2/pkg/runtime"
 	"path/filepath"
 )
 
@@ -32,11 +34,15 @@ func main() {
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
+
 		Logger:             nil,
 		LogLevel:           logger.DEBUG,
 		LogLevelProduction: logger.ERROR,
-		BackgroundColour:   &options.RGBA{R: 27, G: 38, B: 54, A: 1},
-		OnStartup:          app.startup,
+		//BackgroundColour:   &options.RGBA{R: 27, G: 38, B: 54, A: 1},
+		OnStartup: app.startup,
+		Windows: &windows.Options{
+			Theme: windows.Light,
+		},
 		Bind: []interface{}{
 			app,
 		},
@@ -44,4 +50,5 @@ func main() {
 	if err != nil {
 		println("Error:", err.Error())
 	}
+
 }
